@@ -19,7 +19,7 @@ public class OrchestrationController {
     @PostMapping("/execute")
     public ResponseEntity<Object> execute(@RequestBody @Valid ApplicationStartRequest request) {
         final OrchestrationState currentState = orchestrationService.execute(request);
-        if (currentState == OrchestrationState.GET_APPLICANT_DATA_FAILURE_STATE) {
+        if (currentState == OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE) {
             return ResponseEntity.internalServerError()
                     .body("Can't get applicant data");
         }

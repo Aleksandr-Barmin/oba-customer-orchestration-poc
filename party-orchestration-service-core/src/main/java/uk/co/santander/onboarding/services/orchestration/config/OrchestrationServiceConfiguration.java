@@ -7,7 +7,6 @@ import org.springframework.statemachine.StateMachinePersist;
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
 import uk.co.santander.onboarding.services.orchestration.persistence.InMemoryPersistence;
-import uk.co.santander.onboarding.services.orchestration.service.ApplicationRepository;
 import uk.co.santander.onboarding.services.orchestration.service.StateMachineRepository;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;

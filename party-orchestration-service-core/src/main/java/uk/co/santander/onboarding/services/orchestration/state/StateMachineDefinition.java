@@ -9,10 +9,10 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import uk.co.santander.onboarding.services.orchestration.service.StateMachineListener;
-import uk.co.santander.onboarding.services.orchestration.state.action.OnGetApplicantData;
-import uk.co.santander.onboarding.services.orchestration.state.action.OnGetApplicantDataFailure;
+import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
+import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantDataValidationFailedAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
-import uk.co.santander.onboarding.services.orchestration.state.guard.CheckApplicantRetrieved;
+import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
 
 import java.util.EnumSet;
 
@@ -29,13 +29,13 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     private OnMachineInitialization onMachineInitialization;
 
     @Autowired
-    private OnGetApplicantData onGetApplicantData;
+    private GetAndVerifyApplicantDataAction getAndVerifyApplicantDataAction;
 
     @Autowired
-    private OnGetApplicantDataFailure onGetApplicantDataFailure;
+    private ApplicantDataValidationFailedAction applicantDataValidationFailedAction;
 
     @Autowired
-    private CheckApplicantRetrieved checkApplicantRetrieved;
+    private ApplicantDataValidatedGuard applicantDataValidatedGuard;
 
     @Override
     public void configure(StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions) throws Exception {
@@ -44,22 +44,22 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
                     .source(OrchestrationState.MACHINE_CREATED)
                     .target(OrchestrationState.MACHINE_INITIALIZED)
                     .event(OrchestrationEvent.START_EXECUTION)
-                    .action(onMachineInitialization)
+                    .action(onMachineInitialization) // TODO rename the action
                     .and()
                 .withExternal()
                     .source(OrchestrationState.MACHINE_INITIALIZED)
-                    .target(OrchestrationState.GET_APPLICANT_DATA_STATE)
-                    .action(onGetApplicantData)
+                    .target(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                    .action(getAndVerifyApplicantDataAction)
                     .and()
                 .withJunction()
-                    .source(OrchestrationState.GET_APPLICANT_DATA_STATE)
-                    .first(
-                            OrchestrationState.VALIDATE_APPLICANT_DATA_STATE,
-                            checkApplicantRetrieved
+                    .source(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                    .first( // if validation is ok
+                            OrchestrationState.UNDEFINED,
+                            applicantDataValidatedGuard
                     )
-                    .last(
-                            OrchestrationState.GET_APPLICANT_DATA_FAILURE_STATE,
-                            onGetApplicantDataFailure
+                    .last( // else
+                            OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
+                            applicantDataValidationFailedAction
                     )
                     .and();
     }
@@ -68,8 +68,8 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     public void configure(StateMachineStateConfigurer<OrchestrationState, OrchestrationEvent> states) throws Exception {
         states.withStates()
                 .initial(OrchestrationState.MACHINE_CREATED)
-                .junction(OrchestrationState.GET_APPLICANT_DATA_STATE)
-                .end(OrchestrationState.GET_APPLICANT_DATA_FAILURE_STATE)
+                .junction(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                .end(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
                 .states(EnumSet.allOf(OrchestrationState.class));
     }
 

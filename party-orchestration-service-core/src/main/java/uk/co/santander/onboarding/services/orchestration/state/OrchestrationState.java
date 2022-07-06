@@ -15,17 +15,12 @@ public enum OrchestrationState {
     /**
      * Getting an applicant from the party data service.
      */
-    GET_APPLICANT_DATA_STATE,
+    GET_APPLICANT_DATA_AND_VALIDATE_STATE,
 
     /**
-     * The system did not manage to get an applicant from the party data service.
+     * Applicant's data not validated successfully.
      */
-    GET_APPLICANT_DATA_FAILURE_STATE,
-
-    /**
-     * Applicant is retrieved, validating.
-     */
-    VALIDATE_APPLICANT_DATA_STATE,
+    APPLICANT_DATA_VALIDATION_FAILED_STATE,
 
     UNDEFINED
 }

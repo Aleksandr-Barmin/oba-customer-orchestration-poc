@@ -18,6 +18,15 @@
         </dependency>
 
         <dependency>
+            <groupId>com.santanderuk.onboarding</groupId>
+            <artifactId>party-data-service-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.santanderuk.onboarding</groupId>
+            <artifactId>party-address-service-common</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
@@ -29,6 +38,10 @@
         <dependency>
             <groupId>org.springframework.statemachine</groupId>
             <artifactId>spring-statemachine-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.statemachine</groupId>
+            <artifactId>spring-statemachine-test</artifactId>
         </dependency>
     </dependencies>
 

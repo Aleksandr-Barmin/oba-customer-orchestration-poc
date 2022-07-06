@@ -7,6 +7,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
 @Component
+@Deprecated
 public class CheckApplicantRetrieved implements Guard<OrchestrationState, OrchestrationEvent> {
     @Override
     public boolean evaluate(StateContext<OrchestrationState, OrchestrationEvent> context) {
