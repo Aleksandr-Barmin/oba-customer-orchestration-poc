@@ -4,41 +4,19 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>dev.abarmin.poc</groupId>
-        <artifactId>state-machine</artifactId>
+        <artifactId>3rd-party-clients</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>party-orchestration-service-core</artifactId>
+    <artifactId>core-customer-search-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>dev.abarmin.poc</groupId>
-            <artifactId>party-orchestration-service-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.abarmin.poc</groupId>
-            <artifactId>core-customer-search-client</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.santanderuk.onboarding</groupId>
-            <artifactId>party-data-service-common</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>sirius.commons</groupId>
-                    <artifactId>metric-common</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>sirius.commons</groupId>
-                    <artifactId>logging-common</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>sirius.commons</groupId>
-                    <artifactId>tracing-common</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>com.santanderuk.onboarding</groupId>
             <artifactId>party-address-service-common</artifactId>
@@ -57,24 +35,23 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-test</artifactId>
+            <groupId>com.santanderuk.onboarding</groupId>
+            <artifactId>party-data-service-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>metric-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>logging-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>tracing-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
-
 </project>

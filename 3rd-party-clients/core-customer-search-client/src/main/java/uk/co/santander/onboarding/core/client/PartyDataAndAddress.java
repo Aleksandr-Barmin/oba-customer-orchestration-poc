@@ -1,4 +1,4 @@
-package uk.co.santander.onboarding.services.orchestration.state.validator;
+package uk.co.santander.onboarding.core.client;
 
 import lombok.Value;
 import uk.co.santander.onboarding.services.address.address.dto.AddressDTO;

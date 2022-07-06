@@ -1,6 +1,7 @@
 package uk.co.santander.onboarding.services.orchestration.state.validator;
 
 import org.springframework.stereotype.Component;
+import uk.co.santander.onboarding.core.client.PartyDataAndAddress;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
 

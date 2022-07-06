@@ -18,6 +18,11 @@ public enum OrchestrationState {
     GET_APPLICANT_DATA_AND_VALIDATE_STATE,
 
     /**
+     * Search customer in BDP and validate the result.
+     */
+    SEARCH_CUSTOMER_AND_VALIDATE_STATE,
+
+    /**
      * Applicant's data not validated successfully.
      */
     APPLICANT_DATA_VALIDATION_FAILED_STATE,

@@ -20,6 +20,10 @@ public class ApplicantValidationResult {
         return ApplicantValidationStatus.NOT_SUCCESS == status;
     }
 
+    public boolean isPositive() {
+        return ApplicantValidationStatus.SUCCESS == status;
+    }
+
     public static ApplicantValidationResult noApplicant() {
         return ApplicantValidationResult.of(
                 ApplicantValidationStatus.NOT_SUCCESS,

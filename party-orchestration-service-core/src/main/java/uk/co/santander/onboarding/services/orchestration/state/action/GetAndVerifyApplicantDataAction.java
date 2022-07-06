@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.stereotype.Component;
+import uk.co.santander.onboarding.core.client.PartyDataAndAddress;
 import uk.co.santander.onboarding.services.address.address.dto.AddressDTO;
 import uk.co.santander.onboarding.services.orchestration.client.PartyAddressServiceClient;
 import uk.co.santander.onboarding.services.orchestration.client.PartyDataServiceClient;
@@ -13,7 +14,6 @@ import uk.co.santander.onboarding.services.orchestration.service.ApplicationServ
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
-import uk.co.santander.onboarding.services.orchestration.state.validator.PartyDataAndAddress;
 import uk.co.santander.onboarding.services.orchestration.state.validator.PartyDataAndAddressValidator;
 import uk.co.santander.onboarding.services.party.dto.ApplicantDTO;
 import uk.co.santander.onboarding.services.party.dto.ContactPointDTO;

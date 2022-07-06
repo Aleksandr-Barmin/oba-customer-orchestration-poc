@@ -12,6 +12,7 @@ import uk.co.santander.onboarding.services.orchestration.service.StateMachineLis
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantDataValidationFailedAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
+import uk.co.santander.onboarding.services.orchestration.state.action.ValidateAndSearchCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
 
 import java.util.EnumSet;
@@ -37,6 +38,9 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     @Autowired
     private ApplicantDataValidatedGuard applicantDataValidatedGuard;
 
+    @Autowired
+    private ValidateAndSearchCustomerInBdpAction validateAndSearchCustomerInBdpAction;
+
     @Override
     public void configure(StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions) throws Exception {
         transitions
@@ -54,8 +58,9 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
                 .withJunction()
                     .source(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
                     .first( // if validation is ok
-                            OrchestrationState.UNDEFINED,
-                            applicantDataValidatedGuard
+                            OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE,
+                            applicantDataValidatedGuard,
+                            validateAndSearchCustomerInBdpAction
                     )
                     .last( // else
                             OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
