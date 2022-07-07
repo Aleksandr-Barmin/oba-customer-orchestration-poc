@@ -1,0 +1,9 @@
+client:
+  party-data:
+    base-url: http://localhost:9080/party/data
+  party-address:
+    base-url: http://localhost:9080/party/address
+  core-customer-create:
+    base-url: http://localhost:9080/core/customer/create
+  core-customer-search:
+    base-url: http://localhost:9080/core/customer/search

@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Component
-public class ValidateAndSearchCustomerInBdpAction implements Action<OrchestrationState, OrchestrationEvent> {
+public class SearchCustomerInBdpAction implements Action<OrchestrationState, OrchestrationEvent> {
     @Autowired
     private StateContextHelper helper;
 

@@ -45,11 +45,11 @@ import static reactor.core.publisher.Mono.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         StateContextHelper.class,
-        ValidateAndSearchCustomerInBdpAction.class
+        SearchCustomerInBdpAction.class
 })
-class ValidateAndSearchCustomerInBdpActionTest {
+class SearchCustomerInBdpActionTest {
     @Autowired
-    private ValidateAndSearchCustomerInBdpAction uut;
+    private SearchCustomerInBdpAction uut;
 
     @Autowired
     private StateContextHelper contextHelper;

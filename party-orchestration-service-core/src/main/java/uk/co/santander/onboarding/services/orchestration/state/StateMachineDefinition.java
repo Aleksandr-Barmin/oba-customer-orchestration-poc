@@ -13,7 +13,7 @@ import uk.co.santander.onboarding.services.orchestration.state.action.CreateCust
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantDataValidationFailedAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
-import uk.co.santander.onboarding.services.orchestration.state.action.ValidateAndSearchCustomerInBdpAction;
+import uk.co.santander.onboarding.services.orchestration.state.action.SearchCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
 import uk.co.santander.onboarding.services.orchestration.state.guard.CustomerNotFoundInBDPGuard;
 
@@ -41,7 +41,7 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     private ApplicantDataValidatedGuard applicantDataValidatedGuard;
 
     @Autowired
-    private ValidateAndSearchCustomerInBdpAction validateAndSearchCustomerInBdpAction;
+    private SearchCustomerInBdpAction searchCustomerInBdpAction;
 
     @Autowired
     private CustomerNotFoundInBDPGuard customerNotFoundInBDPGuard;
@@ -68,7 +68,7 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
                     .first( // if validation is ok
                             OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE,
                             applicantDataValidatedGuard,
-                            validateAndSearchCustomerInBdpAction
+                            searchCustomerInBdpAction
                     )
                     .last( // else
                             OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,

@@ -33,7 +33,7 @@ import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantD
 import uk.co.santander.onboarding.services.orchestration.state.action.CreateCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
-import uk.co.santander.onboarding.services.orchestration.state.action.ValidateAndSearchCustomerInBdpAction;
+import uk.co.santander.onboarding.services.orchestration.state.action.SearchCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
 import uk.co.santander.onboarding.services.orchestration.state.guard.CustomerNotFoundInBDPGuard;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
@@ -63,7 +63,7 @@ import static org.mockito.Mockito.when;
         GetAndVerifyApplicantDataAction.class,
         ApplicantDataValidationFailedAction.class,
         ApplicantDataValidatedGuard.class,
-        ValidateAndSearchCustomerInBdpAction.class,
+        SearchCustomerInBdpAction.class,
         CustomerNotFoundInBDPGuard.class,
         CreateCustomerInBdpAction.class,
 
