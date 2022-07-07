@@ -1,0 +1,10 @@
+server:
+  port: 9080
+
+world:
+  config:
+    customer-search:
+      found: false
+      delay: 100ms
+    customer-create:
+      delay: 100ms
