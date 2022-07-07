@@ -4,19 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>dev.abarmin.poc</groupId>
-        <artifactId>state-machine</artifactId>
+        <artifactId>3rd-party-clients</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>3rd-party-clients</artifactId>
+    <artifactId>core-customer-search-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>core-customer-search-client</module>
-        <module>core-customer-search-common</module>
-        <module>core-customer-create-client</module>
-        <module>core-customer-create-common</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>

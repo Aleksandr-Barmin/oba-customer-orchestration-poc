@@ -20,6 +20,10 @@
             <groupId>dev.abarmin.poc</groupId>
             <artifactId>core-customer-search-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>dev.abarmin.poc</groupId>
+            <artifactId>core-customer-create-client</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.santanderuk.onboarding</groupId>

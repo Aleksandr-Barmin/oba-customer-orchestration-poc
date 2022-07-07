@@ -75,6 +75,21 @@
 				<artifactId>core-customer-search-client</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
+			<dependency>
+				<groupId>dev.abarmin.poc</groupId>
+				<artifactId>core-customer-create-client</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>dev.abarmin.poc</groupId>
+				<artifactId>core-customer-create-common</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>dev.abarmin.poc</groupId>
+				<artifactId>core-customer-search-common</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
 
 			<dependency>
 				<groupId>com.santanderuk.onboarding</groupId>

@@ -8,13 +8,13 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>core-customer-search-client</artifactId>
+    <artifactId>core-customer-create-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>dev.abarmin.poc</groupId>
-            <artifactId>core-customer-search-common</artifactId>
+            <artifactId>core-customer-create-common</artifactId>
         </dependency>
 
         <dependency>
