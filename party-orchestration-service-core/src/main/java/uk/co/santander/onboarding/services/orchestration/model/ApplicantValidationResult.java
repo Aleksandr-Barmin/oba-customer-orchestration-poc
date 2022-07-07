@@ -31,6 +31,13 @@ public class ApplicantValidationResult {
         );
     }
 
+    public static ApplicantValidationResult success() {
+        return ApplicantValidationResult.of(
+                ApplicantValidationStatus.SUCCESS,
+                "Success validation"
+        );
+    }
+
     public static ApplicantValidationResult unknown() {
         return ApplicantValidationResult.of(
                 ApplicantValidationStatus.UNKNOWN,

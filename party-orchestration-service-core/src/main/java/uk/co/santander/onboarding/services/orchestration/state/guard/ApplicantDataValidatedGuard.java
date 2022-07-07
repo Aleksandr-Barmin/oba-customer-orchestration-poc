@@ -19,8 +19,8 @@ public class ApplicantDataValidatedGuard implements Guard<OrchestrationState, Or
 
     @Override
     public boolean evaluate(StateContext<OrchestrationState, OrchestrationEvent> context) {
-        final ApplicantValidationResult validationInfo = helper.getApplicationValidationResult(context);
-        return Optional.ofNullable(validationInfo)
+        final ApplicantValidationResult validationResult = helper.getApplicationValidationResult(context);
+        return Optional.ofNullable(validationResult)
                 .map(ApplicantValidationResult::getStatus)
                 .map(ApplicantValidationStatus::isPositive)
                 .orElse(Boolean.FALSE);

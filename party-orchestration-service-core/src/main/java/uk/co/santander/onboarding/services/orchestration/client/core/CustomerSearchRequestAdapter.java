@@ -9,7 +9,11 @@ import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddre
  */
 @Component
 public class CustomerSearchRequestAdapter {
+    @DummyImplementation
     public CustomerSearchRequest build(final PartyDataAndAddress dataAndAddress) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return CustomerSearchRequest.builder()
+                .applicantId(dataAndAddress.getApplicantOptional().get()
+                        .getApplicantId())
+                .build();
     }
 }
