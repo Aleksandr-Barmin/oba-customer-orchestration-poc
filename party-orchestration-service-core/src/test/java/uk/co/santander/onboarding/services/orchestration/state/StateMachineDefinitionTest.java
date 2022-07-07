@@ -11,6 +11,9 @@ import org.springframework.statemachine.test.StateMachineTestPlan;
 import org.springframework.statemachine.test.StateMachineTestPlanBuilder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.co.santander.onboarding.core.client.create.CustomerCreateClient;
+import uk.co.santander.onboarding.core.client.create.CustomerCreateRequest;
+import uk.co.santander.onboarding.core.client.create.CustomerCreateResponse;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchClient;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchRequest;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
@@ -18,6 +21,7 @@ import uk.co.santander.onboarding.core.client.search.CustomerSearchStatus;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddressServiceClient;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.core.CustomerCreateRequestAdapter;
 import uk.co.santander.onboarding.services.orchestration.client.core.CustomerSearchRequestAdapter;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
@@ -64,6 +68,8 @@ import static org.mockito.Mockito.when;
         CreateCustomerInBdpAction.class,
 
         CustomerSearchRequestAdapter.class,
+        CustomerCreateRequestAdapter.class,
+
         StateContextHelper.class,
         PartyDataFacade.class,
 
@@ -84,6 +90,9 @@ class StateMachineDefinitionTest {
 
     @MockBean
     private CustomerSearchClient customerSearchClient;
+
+    @MockBean
+    private CustomerCreateClient customerCreateClient;
 
     @MockBean
     private PartyDataAndAddressValidator partyDataValidator;
@@ -269,6 +278,8 @@ class StateMachineDefinitionTest {
     @DisplayName("Should create customer when not found")
     void execute_shouldCreateCustomerWhenNotFound() throws Exception {
         final UUID applicantId = UUID.randomUUID();
+        final String fNumber = "F123456";
+        final UUID bdpUuid = UUID.randomUUID();
         final StateMachine<OrchestrationState, OrchestrationEvent> stateMachine = buildStateMachine(applicantId);
 
         when(dataServiceClient.findById(eq(applicantId))).thenReturn(Optional.of(
@@ -278,12 +289,24 @@ class StateMachineDefinitionTest {
         ));
         when(partyDataValidator.validate(any(PartyDataAndAddress.class))).thenReturn(ApplicantValidationResult.success());
         when(customerSearchClient.search(any(CustomerSearchRequest.class))).thenReturn(CustomerSearchResponse.notFound());
+        when(customerCreateClient.create(any(CustomerCreateRequest.class))).thenReturn(CustomerCreateResponse.builder()
+                .fNumber(fNumber)
+                .bdpUuid(bdpUuid)
+                .build());
 
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
                     .sendEvent(OrchestrationEvent.START_EXECUTION)
                     .expectState(OrchestrationState.CUSTOMER_CREATION_STATE)
+                    .expectVariable(
+                            StateConstants.CORE_CREATE_F_NUMBER,
+                            fNumber
+                    )
+                    .expectVariable(
+                            StateConstants.CORE_CREATE_DBP_UUID,
+                            bdpUuid
+                    )
                     .and()
                 .build();
 

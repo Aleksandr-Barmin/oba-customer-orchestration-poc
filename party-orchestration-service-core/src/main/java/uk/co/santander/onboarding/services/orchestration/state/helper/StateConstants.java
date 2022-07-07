@@ -7,4 +7,6 @@ public interface StateConstants {
     String CORE_SEARCH_STATUS = "coreSearchStatus";
     String CORE_SEARCH_F_NUMBER = "coreSearchFNumber";
     String CORE_SEARCH_BDP_UUID = "coreSearchBDPUUID";
+    String CORE_CREATE_F_NUMBER = "coreCreateFNumber";
+    String CORE_CREATE_DBP_UUID = "createCreateBDPUUID";
 }
