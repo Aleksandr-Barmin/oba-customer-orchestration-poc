@@ -8,3 +8,9 @@ world:
       delay: 100ms
     customer-create:
       delay: 100ms
+    party-data-search:
+      found: true
+      delay: 100ms
+    party-address-search:
+      found: true
+      delay: 100ms

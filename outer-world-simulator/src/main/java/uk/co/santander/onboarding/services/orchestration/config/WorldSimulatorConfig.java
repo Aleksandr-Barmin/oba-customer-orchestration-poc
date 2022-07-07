@@ -18,6 +18,12 @@ public class WorldSimulatorConfig {
     @Valid
     private CoreCustomerCreate customerCreate = new CoreCustomerCreate();
 
+    @Valid
+    private BaasPartyDataSearch partyDataSearch = new BaasPartyDataSearch();
+
+    @Valid
+    private BaasPartyAddressSearch partyAddressSearch = new BaasPartyAddressSearch();
+
     @Data
     public static class CoreCustomerCreate {
         @NotNull
@@ -26,6 +32,22 @@ public class WorldSimulatorConfig {
 
     @Data
     public static class CoreCustomerSearch {
+        private boolean found;
+
+        @NotNull
+        private Duration delay;
+    }
+
+    @Data
+    public static class BaasPartyDataSearch {
+        private boolean found;
+
+        @NotNull
+        private Duration delay;
+    }
+
+    @Data
+    public static class BaasPartyAddressSearch {
         private boolean found;
 
         @NotNull

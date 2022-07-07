@@ -20,6 +20,42 @@
             <groupId>dev.abarmin.poc</groupId>
             <artifactId>core-customer-create-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.santanderuk.onboarding</groupId>
+            <artifactId>party-data-service-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>metric-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>logging-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>tracing-common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.santanderuk.onboarding</groupId>
+            <artifactId>party-address-service-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>metric-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>logging-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>sirius.commons</groupId>
+                    <artifactId>tracing-common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
