@@ -28,6 +28,11 @@ public enum OrchestrationState {
     CUSTOMER_FOUND_IN_BDP_STATE,
 
     /**
+     * Create customer in BDP via Core API.
+     */
+    CUSTOMER_CREATION_STATE,
+
+    /**
      * Applicant's data not validated successfully.
      */
     APPLICANT_DATA_VALIDATION_FAILED_STATE,

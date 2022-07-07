@@ -11,10 +11,10 @@ import org.springframework.statemachine.test.StateMachineTestPlan;
 import org.springframework.statemachine.test.StateMachineTestPlanBuilder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.co.santander.onboarding.core.client.CustomerSearchClient;
-import uk.co.santander.onboarding.core.client.CustomerSearchRequest;
-import uk.co.santander.onboarding.core.client.CustomerSearchResponse;
-import uk.co.santander.onboarding.core.client.CustomerSearchStatus;
+import uk.co.santander.onboarding.core.client.search.CustomerSearchClient;
+import uk.co.santander.onboarding.core.client.search.CustomerSearchRequest;
+import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
+import uk.co.santander.onboarding.core.client.search.CustomerSearchStatus;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddressServiceClient;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
@@ -26,6 +26,7 @@ import uk.co.santander.onboarding.services.orchestration.service.ApplicationServ
 import uk.co.santander.onboarding.services.orchestration.service.OrchestrationStateMachineFactory;
 import uk.co.santander.onboarding.services.orchestration.service.StateMachineListener;
 import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantDataValidationFailedAction;
+import uk.co.santander.onboarding.services.orchestration.state.action.CreateCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
 import uk.co.santander.onboarding.services.orchestration.state.action.ValidateAndSearchCustomerInBdpAction;
@@ -60,6 +61,7 @@ import static org.mockito.Mockito.when;
         ApplicantDataValidatedGuard.class,
         ValidateAndSearchCustomerInBdpAction.class,
         CustomerNotFoundInBDPGuard.class,
+        CreateCustomerInBdpAction.class,
 
         CustomerSearchRequestAdapter.class,
         StateContextHelper.class,
@@ -261,5 +263,30 @@ class StateMachineDefinitionTest {
                 eq(applicantId),
                 contains("Existing customer found")
         );
+    }
+
+    @Test
+    @DisplayName("Should create customer when not found")
+    void execute_shouldCreateCustomerWhenNotFound() throws Exception {
+        final UUID applicantId = UUID.randomUUID();
+        final StateMachine<OrchestrationState, OrchestrationEvent> stateMachine = buildStateMachine(applicantId);
+
+        when(dataServiceClient.findById(eq(applicantId))).thenReturn(Optional.of(
+                ApplicantDTO.builder()
+                        .applicantId(applicantId)
+                        .build()
+        ));
+        when(partyDataValidator.validate(any(PartyDataAndAddress.class))).thenReturn(ApplicantValidationResult.success());
+        when(customerSearchClient.search(any(CustomerSearchRequest.class))).thenReturn(CustomerSearchResponse.notFound());
+
+        final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
+                .stateMachine(stateMachine)
+                .step()
+                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .expectState(OrchestrationState.CUSTOMER_CREATION_STATE)
+                    .and()
+                .build();
+
+        testPlan.test();
     }
 }

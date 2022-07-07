@@ -2,7 +2,7 @@ package uk.co.santander.onboarding.services.orchestration.state.helper;
 
 import org.springframework.statemachine.StateContext;
 import org.springframework.stereotype.Component;
-import uk.co.santander.onboarding.core.client.CustomerSearchStatus;
+import uk.co.santander.onboarding.core.client.search.CustomerSearchStatus;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;

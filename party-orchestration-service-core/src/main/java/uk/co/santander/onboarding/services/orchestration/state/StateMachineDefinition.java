@@ -9,6 +9,7 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import uk.co.santander.onboarding.services.orchestration.service.StateMachineListener;
+import uk.co.santander.onboarding.services.orchestration.state.action.CreateCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantDataValidationFailedAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
@@ -45,6 +46,9 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     @Autowired
     private CustomerNotFoundInBDPGuard customerNotFoundInBDPGuard;
 
+    @Autowired
+    private CreateCustomerInBdpAction createCustomerInBdpAction;
+
     @Override
     public void configure(StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions) throws Exception {
         transitions
@@ -74,8 +78,9 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
                 .withJunction()
                     .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
                     .first( // not found in BDP
-                            OrchestrationState.UNDEFINED,
-                            customerNotFoundInBDPGuard
+                            OrchestrationState.CUSTOMER_CREATION_STATE,
+                            customerNotFoundInBDPGuard,
+                            createCustomerInBdpAction
                     )
                     .last(  // found in BDP, can't proceed
                             OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE
@@ -87,9 +92,13 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     public void configure(StateMachineStateConfigurer<OrchestrationState, OrchestrationEvent> states) throws Exception {
         states.withStates()
                 .initial(OrchestrationState.MACHINE_CREATED)
+
                 .junction(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
                 .junction(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
+
                 .end(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
+                .end(OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
+
                 .states(EnumSet.allOf(OrchestrationState.class));
     }
 

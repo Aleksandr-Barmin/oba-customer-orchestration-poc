@@ -1,4 +1,4 @@
-package uk.co.santander.onboarding.core.client;
+package uk.co.santander.onboarding.core.client.search;
 
 public interface CustomerSearchClient {
     /**

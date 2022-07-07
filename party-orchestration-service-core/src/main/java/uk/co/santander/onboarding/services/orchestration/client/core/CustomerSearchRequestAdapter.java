@@ -1,7 +1,7 @@
 package uk.co.santander.onboarding.services.orchestration.client.core;
 
 import org.springframework.stereotype.Component;
-import uk.co.santander.onboarding.core.client.CustomerSearchRequest;
+import uk.co.santander.onboarding.core.client.search.CustomerSearchRequest;
 import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddress;
 
 /**
