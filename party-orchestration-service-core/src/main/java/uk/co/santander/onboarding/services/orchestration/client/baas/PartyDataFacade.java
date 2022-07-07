@@ -30,7 +30,10 @@ public class PartyDataFacade {
                 .map(this::getPartyAddress)
                 .orElse(List.of());
 
-        return new PartyDataAndAddress(applicantOptional, addressCollection);
+        return PartyDataAndAddress.builder()
+                .applicantOptional(applicantOptional)
+                .addresses(addressCollection)
+                .build();
     }
 
     private Collection<AddressDTO> getPartyAddress(final Collection<PostalAddressesDTO> addressesDTOS) {

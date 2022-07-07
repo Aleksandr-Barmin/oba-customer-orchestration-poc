@@ -2,6 +2,7 @@ package uk.co.santander.onboarding.services.orchestration.state.helper;
 
 import org.springframework.statemachine.StateContext;
 import org.springframework.stereotype.Component;
+import uk.co.santander.onboarding.core.client.CustomerSearchStatus;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
@@ -12,6 +13,28 @@ import java.util.UUID;
 
 @Component
 public class StateContextHelper {
+    public void setCustomerSearchStatus(final StateContext<OrchestrationState, OrchestrationEvent> context,
+                                        final CustomerSearchStatus status) {
+        Objects.requireNonNull(context, "Context should not be null");
+        Objects.requireNonNull(status, "Status should not be null");
+
+        write(
+                context,
+                StateConstants.CORE_SEARCH_STATUS,
+                status
+        );
+    }
+
+    public CustomerSearchStatus getCustomerSearchStatus(final StateContext<OrchestrationState, OrchestrationEvent> context) {
+        Objects.requireNonNull(context, "Context should not be null");
+
+        return read(
+                context,
+                StateConstants.CORE_SEARCH_STATUS,
+                CustomerSearchStatus.class
+        );
+    }
+
     public ApplicantValidationResult getApplicationValidationResult(final StateContext<OrchestrationState, OrchestrationEvent> context) {
         Objects.requireNonNull(context, "Context should not be null");
 

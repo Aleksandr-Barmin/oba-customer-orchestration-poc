@@ -7,11 +7,10 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
 @Component
-@Deprecated
-public class CheckApplicantRetrieved implements Guard<OrchestrationState, OrchestrationEvent> {
+public class CustomerNotFoundInBDPGuard implements Guard<OrchestrationState, OrchestrationEvent> {
     @Override
     public boolean evaluate(StateContext<OrchestrationState, OrchestrationEvent> context) {
-        // TODO: need to implement real logic here
-        return false;
+        // TODO: write code here :)
+        throw new UnsupportedOperationException();
     }
 }

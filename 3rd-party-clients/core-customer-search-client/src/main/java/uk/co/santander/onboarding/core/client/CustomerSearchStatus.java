@@ -1,18 +1,25 @@
 package uk.co.santander.onboarding.core.client;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum CustomerSearchStatus {
     /**
      * Customer found in BDP.
      */
-    FOUND_SINGLE,
+    FOUND_SINGLE(true),
 
     /**
      * Multiple customers found with the given data.
      */
-    FOUND_MULTIPLE,
+    FOUND_MULTIPLE(true),
 
     /**
      * Customer not found in BDP.
      */
-    NOT_FOUND
+    NOT_FOUND(false);
+
+    @Getter
+    private final boolean found;
 }

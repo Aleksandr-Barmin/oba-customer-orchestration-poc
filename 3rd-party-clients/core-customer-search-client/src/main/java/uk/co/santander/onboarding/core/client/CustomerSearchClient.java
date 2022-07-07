@@ -6,5 +6,5 @@ public interface CustomerSearchClient {
      * @param request
      * @return
      */
-    CustomerSearchRequest search(CustomerSearchRequest request);
+    CustomerSearchResponse search(CustomerSearchRequest request);
 }

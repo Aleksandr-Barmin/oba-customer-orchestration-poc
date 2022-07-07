@@ -14,6 +14,7 @@ import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantD
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
 import uk.co.santander.onboarding.services.orchestration.state.action.ValidateAndSearchCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
+import uk.co.santander.onboarding.services.orchestration.state.guard.CustomerNotFoundInBDPGuard;
 
 import java.util.EnumSet;
 
@@ -41,6 +42,9 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
     @Autowired
     private ValidateAndSearchCustomerInBdpAction validateAndSearchCustomerInBdpAction;
 
+    @Autowired
+    private CustomerNotFoundInBDPGuard customerNotFoundInBDPGuard;
+
     @Override
     public void configure(StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions) throws Exception {
         transitions
@@ -66,6 +70,16 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
                             OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
                             applicantDataValidationFailedAction
                     )
+                    .and()
+                .withJunction()
+                    .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
+                    .first( // not found in BDP
+                            OrchestrationState.UNDEFINED,
+                            customerNotFoundInBDPGuard
+                    )
+                    .last(  // found in BDP, can't proceed
+                            OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE
+                    )
                     .and();
     }
 
@@ -74,6 +88,7 @@ public class StateMachineDefinition extends EnumStateMachineConfigurerAdapter<Or
         states.withStates()
                 .initial(OrchestrationState.MACHINE_CREATED)
                 .junction(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                .junction(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
                 .end(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
                 .states(EnumSet.allOf(OrchestrationState.class));
     }

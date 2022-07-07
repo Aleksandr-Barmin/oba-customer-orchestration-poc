@@ -23,6 +23,11 @@ public enum OrchestrationState {
     SEARCH_CUSTOMER_AND_VALIDATE_STATE,
 
     /**
+     * Customer found in BDP, can't proceed.
+     */
+    CUSTOMER_FOUND_IN_BDP_STATE,
+
+    /**
      * Applicant's data not validated successfully.
      */
     APPLICANT_DATA_VALIDATION_FAILED_STATE,
