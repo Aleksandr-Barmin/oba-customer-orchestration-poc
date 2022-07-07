@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.stereotype.Component;
-import uk.co.santander.onboarding.core.client.PartyDataAndAddress;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
+import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddress;
 import uk.co.santander.onboarding.services.address.address.dto.AddressDTO;
-import uk.co.santander.onboarding.services.orchestration.client.PartyAddressServiceClient;
-import uk.co.santander.onboarding.services.orchestration.client.PartyDataServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddressServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.service.ApplicationService;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
@@ -32,10 +33,7 @@ public class GetAndVerifyApplicantDataAction implements Action<OrchestrationStat
     private ApplicationService applicationService;
 
     @Autowired
-    private PartyDataServiceClient dataServiceClient;
-
-    @Autowired
-    private PartyAddressServiceClient addressServiceClient;
+    private PartyDataFacade partyDataFacade;
 
     @Autowired
     private PartyDataAndAddressValidator dataValidator;
@@ -47,16 +45,10 @@ public class GetAndVerifyApplicantDataAction implements Action<OrchestrationStat
 
         applicationService.createRecord(applicationId, "Start getting info from party data service");
 
-        final Optional<ApplicantDTO> applicantOptional = dataServiceClient.findById(applicationId);
-
-        final Optional<AddressDTO> addressOptional = applicantOptional.map(ApplicantDTO::getContactPoint)
-                .map(ContactPointDTO::getPostalAddresses)
-                .map(Iterables::getLast) // TODO not sure if only one address is available
-                .map(PostalAddressesDTO::getAddressId)
-                .flatMap(addressServiceClient::findById);
+        final PartyDataAndAddress partyData = partyDataFacade.getPartyData(applicationId);
 
         // can't proceed without applicant
-        if (applicantOptional.isEmpty()) {
+        if (partyData.getApplicantOptional().isEmpty()) {
             helper.setApplicantValidationResult(context, ApplicantValidationResult.noApplicant());
 
             applicationService.createRecord(applicationId, "Data not received from party data service");
@@ -64,10 +56,7 @@ public class GetAndVerifyApplicantDataAction implements Action<OrchestrationStat
         }
 
         // validating
-        final ApplicantValidationResult validationInfo = dataValidator.validate(new PartyDataAndAddress(
-                applicantOptional,
-                addressOptional
-        ));
+        final ApplicantValidationResult validationInfo = dataValidator.validate(partyData);
 
         helper.setApplicantValidationResult(context, validationInfo);
 

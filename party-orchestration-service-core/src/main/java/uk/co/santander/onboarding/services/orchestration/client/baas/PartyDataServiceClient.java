@@ -1,4 +1,4 @@
-package uk.co.santander.onboarding.services.orchestration.client;
+package uk.co.santander.onboarding.services.orchestration.client.baas;
 
 import uk.co.santander.onboarding.services.party.dto.ApplicantDTO;
 

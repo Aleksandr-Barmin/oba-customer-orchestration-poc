@@ -1,7 +1,7 @@
-package uk.co.santander.onboarding.services.orchestration.client.simulator;
+package uk.co.santander.onboarding.services.orchestration.client.baas.simulator;
 
 import org.springframework.stereotype.Service;
-import uk.co.santander.onboarding.services.orchestration.client.PartyDataServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
 import uk.co.santander.onboarding.services.party.dto.ApplicantDTO;
 
 import java.util.Optional;

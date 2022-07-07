@@ -13,9 +13,10 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.co.santander.onboarding.core.client.PartyDataAndAddress;
-import uk.co.santander.onboarding.services.orchestration.client.PartyAddressServiceClient;
-import uk.co.santander.onboarding.services.orchestration.client.PartyDataServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
+import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddress;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddressServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
 import uk.co.santander.onboarding.services.orchestration.service.ApplicationService;
@@ -42,6 +43,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
+        PartyDataFacade.class,
         StateContextHelper.class,
         GetAndVerifyApplicantDataAction.class
 })
