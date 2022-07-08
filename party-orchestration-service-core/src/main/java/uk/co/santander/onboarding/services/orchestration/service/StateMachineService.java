@@ -10,6 +10,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/** Service to interact with state machines. */
 @Service
 public class StateMachineService {
   @Autowired
@@ -21,6 +22,13 @@ public class StateMachineService {
 
   @Autowired private StateContextHelper contextHelper;
 
+  /**
+   * Send an event to the state machine with given identifier.
+   *
+   * @param applicationId identifier of a state machine.
+   * @param event to be sent to the state machine.
+   * @return current (final?) state of a state machine.
+   */
   public OrchestrationState sendEvent(UUID applicationId, OrchestrationEvent event) {
     return withMachine(
         applicationId,

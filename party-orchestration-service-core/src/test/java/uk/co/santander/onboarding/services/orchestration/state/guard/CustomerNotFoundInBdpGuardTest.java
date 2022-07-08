@@ -21,11 +21,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         StateContextHelper.class,
-        CustomerNotFoundInBDPGuard.class
+        CustomerNotFoundInBdpGuard.class
 })
-class CustomerNotFoundInBDPGuardTest {
+class CustomerNotFoundInBdpGuardTest {
     @Autowired
-    private CustomerNotFoundInBDPGuard uut;
+    private CustomerNotFoundInBdpGuard uut;
 
     @Mock
     private StateContext context;

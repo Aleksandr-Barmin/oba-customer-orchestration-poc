@@ -9,6 +9,10 @@ import uk.co.santander.onboarding.services.address.address.dto.AddressDTO;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddressServiceClient;
 import uk.co.santander.onboarding.services.orchestration.client.core.DummyImplementation;
 
+/**
+ * Dummy implementation of the {@link PartyAddressServiceClient} which connects to the outer world
+ * simulator using feign client.
+ */
 @Slf4j
 @Service
 @DummyImplementation

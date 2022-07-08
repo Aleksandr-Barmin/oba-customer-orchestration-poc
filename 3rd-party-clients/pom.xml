@@ -18,5 +18,9 @@
         <module>core-customer-search-common</module>
         <module>core-customer-create-client</module>
         <module>core-customer-create-common</module>
+        <module>core-customer-economic-data-common</module>
+        <module>core-customer-economic-data-client</module>
+        <module>core-fcol-client</module>
+        <module>core-fcol-common</module>
     </modules>
 </project>

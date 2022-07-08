@@ -11,7 +11,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
 @Component
-public class CustomerNotFoundInBDPGuard implements Guard<OrchestrationState, OrchestrationEvent> {
+public class CustomerNotFoundInBdpGuard implements Guard<OrchestrationState, OrchestrationEvent> {
   @Autowired private StateContextHelper helper;
 
   @Override

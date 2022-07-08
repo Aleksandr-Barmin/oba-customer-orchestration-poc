@@ -91,6 +91,16 @@
 				<artifactId>core-customer-search-common</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
+			<dependency>
+				<groupId>dev.abarmin.poc</groupId>
+				<artifactId>core-customer-economic-data-common</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>dev.abarmin.poc</groupId>
+				<artifactId>core-customer-economic-data-client</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
 
 			<dependency>
 				<groupId>com.santanderuk.onboarding</groupId>

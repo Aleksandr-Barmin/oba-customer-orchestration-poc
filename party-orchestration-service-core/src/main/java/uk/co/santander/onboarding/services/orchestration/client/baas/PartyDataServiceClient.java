@@ -9,8 +9,8 @@ public interface PartyDataServiceClient {
   /**
    * Find information about an applicant by its id.
    *
-   * @param applicantId
-   * @return
+   * @param applicantId applicant identifier.
+   * @return optional of applicant - applicant may not be found.
    */
   Optional<ApplicantDTO> findById(UUID applicantId);
 }
