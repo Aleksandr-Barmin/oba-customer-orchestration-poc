@@ -234,7 +234,7 @@ class StateMachineDefinitionTest {
         when(partyDataValidator.validate(any(PartyDataAndAddress.class))).thenReturn(ApplicantValidationResult.success());
         when(customerSearchClient.search(any(CustomerSearchRequest.class))).thenReturn(CustomerSearchResponse.builder()
                 .status(CustomerSearchStatus.FOUND_SINGLE)
-                .fNumber(fNumber)
+                .fnumber(fNumber)
                 .bdpUuid(bdpUuid)
                 .build());
 
@@ -290,7 +290,7 @@ class StateMachineDefinitionTest {
         when(partyDataValidator.validate(any(PartyDataAndAddress.class))).thenReturn(ApplicantValidationResult.success());
         when(customerSearchClient.search(any(CustomerSearchRequest.class))).thenReturn(CustomerSearchResponse.notFound());
         when(customerCreateClient.create(any(CustomerCreateRequest.class))).thenReturn(CustomerCreateResponse.builder()
-                .fNumber(fNumber)
+                .fnumber(fNumber)
                 .bdpUuid(bdpUuid)
                 .build());
 

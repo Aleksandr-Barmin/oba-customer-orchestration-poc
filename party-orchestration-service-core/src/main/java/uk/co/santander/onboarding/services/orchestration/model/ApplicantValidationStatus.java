@@ -1,31 +1,23 @@
 package uk.co.santander.onboarding.services.orchestration.model;
 
-/**
- * Result of the applicant validation.
- */
+/** Result of the applicant validation. */
 public enum ApplicantValidationStatus {
-    /**
-     * Validation is successful.
-     */
-    SUCCESS(true),
+  /** Validation is successful. */
+  SUCCESS(true),
 
-    /**
-     * Validation is not successful.
-     */
-    NOT_SUCCESS(false),
+  /** Validation is not successful. */
+  NOT_SUCCESS(false),
 
-    /**
-     * Validation status is unknown.
-     */
-    UNKNOWN(false);
+  /** Validation status is unknown. */
+  UNKNOWN(false);
 
-    private final boolean positive;
+  private final boolean positive;
 
-    ApplicantValidationStatus(boolean positive) {
-        this.positive = positive;
-    }
+  ApplicantValidationStatus(boolean positive) {
+    this.positive = positive;
+  }
 
-    public boolean isPositive() {
-        return positive;
-    }
+  public boolean isPositive() {
+    return positive;
+  }
 }

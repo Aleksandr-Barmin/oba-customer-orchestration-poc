@@ -8,6 +8,6 @@ import uk.co.santander.onboarding.core.client.create.CustomerCreateResponse;
 
 @FeignClient(name = "core-customer-create-client", url = "${client.core-customer-create.base-url}")
 public interface CustomerCreateFeignClient {
-    @PostMapping("/")
-    CustomerCreateResponse createCustomer(@RequestBody CustomerCreateRequest request);
+  @PostMapping("/")
+  CustomerCreateResponse createCustomer(@RequestBody CustomerCreateRequest request);
 }

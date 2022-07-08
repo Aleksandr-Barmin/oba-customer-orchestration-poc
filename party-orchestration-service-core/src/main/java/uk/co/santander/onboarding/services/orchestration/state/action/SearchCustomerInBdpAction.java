@@ -66,7 +66,7 @@ public class SearchCustomerInBdpAction implements Action<OrchestrationState, Orc
             );
             context.getExtendedState().getVariables().put(
                     StateConstants.CORE_SEARCH_F_NUMBER,
-                    coreSearchResponse.getFNumber()
+                    coreSearchResponse.getFnumber()
             );
 
             applicationService.createRecord(

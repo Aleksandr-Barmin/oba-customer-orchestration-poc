@@ -8,13 +8,13 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
 
 @Service
 public class OrchestrationService {
-    @Autowired
-    private StateMachineService stateMachineService;
+  @Autowired private StateMachineService stateMachineService;
 
-    public OrchestrationState execute(ApplicationStartRequest request) {
-        // at this moment request already validated, need to kickstart the process
+  public OrchestrationState execute(ApplicationStartRequest request) {
+    // at this moment request already validated, need to kickstart the process
 
-        // TODO: should we check if a process already started?
-        return stateMachineService.sendEvent(request.getApplicantId(), OrchestrationEvent.START_EXECUTION);
-    }
+    // TODO: should we check if a process already started?
+    return stateMachineService.sendEvent(
+        request.getApplicantId(), OrchestrationEvent.START_EXECUTION);
+  }
 }

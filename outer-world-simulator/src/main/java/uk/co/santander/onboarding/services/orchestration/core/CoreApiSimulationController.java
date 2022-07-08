@@ -39,7 +39,7 @@ public class CoreApiSimulationController {
             return CustomerSearchResponse.builder()
                     .status(CustomerSearchStatus.FOUND_SINGLE)
                     .bdpUuid(UUID.randomUUID())
-                    .fNumber("F123456")
+                    .fnumber("F123456")
                     .build();
         }
         return CustomerSearchResponse.builder()
@@ -57,7 +57,7 @@ public class CoreApiSimulationController {
 
         return CustomerCreateResponse.builder()
                 .bdpUuid(UUID.randomUUID())
-                .fNumber("F123456")
+                .fnumber("F123456")
                 .build();
     }
 }

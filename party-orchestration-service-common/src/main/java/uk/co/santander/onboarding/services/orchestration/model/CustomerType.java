@@ -6,6 +6,6 @@ package uk.co.santander.onboarding.services.orchestration.model;
 public enum CustomerType {
     /**
      * New to a bank customer.
-     */
+     **/
     NEW_TO_BANK
 }

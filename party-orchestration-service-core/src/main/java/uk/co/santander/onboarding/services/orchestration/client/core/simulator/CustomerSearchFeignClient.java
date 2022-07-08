@@ -8,6 +8,6 @@ import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
 
 @FeignClient(name = "core-customer-search-client", url = "${client.core-customer-search.base-url}")
 public interface CustomerSearchFeignClient {
-    @PostMapping("")
-    CustomerSearchResponse searchCustomer(@RequestBody CustomerSearchRequest request);
+  @PostMapping("")
+  CustomerSearchResponse searchCustomer(@RequestBody CustomerSearchRequest request);
 }

@@ -10,12 +10,11 @@ import uk.co.santander.onboarding.services.orchestration.state.StateMachineDefin
 
 @Component
 public class OrchestrationStateMachineFactory {
-    @Autowired
-    private StateMachineFactory<OrchestrationState, OrchestrationEvent> springFactory;
+  @Autowired private StateMachineFactory<OrchestrationState, OrchestrationEvent> springFactory;
 
-    public StateMachine<OrchestrationState, OrchestrationEvent> create() {
-        final StateMachine<OrchestrationState, OrchestrationEvent> stateMachine =
-                springFactory.getStateMachine(StateMachineDefinition.MACHINE_NAME);
-        return stateMachine;
-    }
+  public StateMachine<OrchestrationState, OrchestrationEvent> create() {
+    final StateMachine<OrchestrationState, OrchestrationEvent> stateMachine =
+        springFactory.getStateMachine(StateMachineDefinition.MACHINE_NAME);
+    return stateMachine;
+  }
 }

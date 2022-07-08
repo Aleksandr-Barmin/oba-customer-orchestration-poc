@@ -10,11 +10,10 @@ import uk.co.santander.onboarding.services.orchestration.client.core.DummyImplem
 @Service
 @DummyImplementation
 public class CustomerSearchSimulatorClient implements CustomerSearchClient {
-    @Autowired
-    private CustomerSearchFeignClient feignClient;
+  @Autowired private CustomerSearchFeignClient feignClient;
 
-    @Override
-    public CustomerSearchResponse search(CustomerSearchRequest request) {
-        return feignClient.searchCustomer(request);
-    }
+  @Override
+  public CustomerSearchResponse search(CustomerSearchRequest request) {
+    return feignClient.searchCustomer(request);
+  }
 }

@@ -239,7 +239,7 @@ class SearchCustomerInBdpActionTest {
         when(customerSearchClient.search(any(CustomerSearchRequest.class))).thenReturn(CustomerSearchResponse.builder()
                 .status(CustomerSearchStatus.FOUND_SINGLE)
                 .bdpUuid(bdpId)
-                .fNumber(fNumber)
+                .fnumber(fNumber)
                 .build());
 
         uut.execute(context);

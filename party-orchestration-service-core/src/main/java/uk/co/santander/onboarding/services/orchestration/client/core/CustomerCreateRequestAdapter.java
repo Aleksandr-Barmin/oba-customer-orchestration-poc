@@ -6,10 +6,10 @@ import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddre
 
 @Component
 public class CustomerCreateRequestAdapter {
-    @DummyImplementation
-    public CustomerCreateRequest build(final PartyDataAndAddress partyData) {
-        return CustomerCreateRequest.builder()
-                .applicantId(partyData.getApplicantOptional().get().getApplicantId())
-                .build();
-    }
+  @DummyImplementation
+  public CustomerCreateRequest build(final PartyDataAndAddress partyData) {
+    return CustomerCreateRequest.builder()
+        .applicantId(partyData.getApplicantOptional().get().getApplicantId())
+        .build();
+  }
 }

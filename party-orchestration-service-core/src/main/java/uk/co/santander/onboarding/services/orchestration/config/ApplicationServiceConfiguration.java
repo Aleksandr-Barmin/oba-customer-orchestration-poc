@@ -6,11 +6,20 @@ import org.springframework.context.annotation.Configuration;
 import uk.co.santander.onboarding.services.orchestration.persistence.InMemoryApplicationRepository;
 import uk.co.santander.onboarding.services.orchestration.service.ApplicationRepository;
 
-@Configuration
-public class ApplicationServiceConfiguration {
-    @Bean
-    @ConditionalOnMissingBean
-    public ApplicationRepository applicationRepository() {
-        return new InMemoryApplicationRepository();
-    }
+/**
+ * Configuration for the application records repository. This repository stores information about
+ * business events happened during application.
+ */
+@Configuration(proxyBeanMethods = false)
+public final class ApplicationServiceConfiguration {
+  /**
+   * Declaring a bean which actually stores information about application business events.
+   *
+   * @return application repository bean.
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public ApplicationRepository applicationRepository() {
+    return new InMemoryApplicationRepository();
+  }
 }

@@ -130,7 +130,7 @@ class CreateCustomerInBdpActionTest {
         when(requestAdapter.build(any(PartyDataAndAddress.class))).thenReturn(createRequest);
         when(createClient.create(eq(createRequest))).thenReturn(CustomerCreateResponse.builder()
                 .bdpUuid(bdpUuid)
-                .fNumber(fNumber)
+                .fnumber(fNumber)
                 .build());
 
         uut.execute(context);
