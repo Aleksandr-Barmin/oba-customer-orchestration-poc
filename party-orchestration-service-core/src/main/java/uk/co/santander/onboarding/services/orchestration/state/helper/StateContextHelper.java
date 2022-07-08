@@ -97,6 +97,7 @@ public class StateContextHelper {
     write(context, StateConstants.APPLICATION_ID, applicationId);
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   private <T> T read(
       final StateContext<OrchestrationState, OrchestrationEvent> context,
       final String field,

@@ -8,7 +8,6 @@ import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.stereotype.Service;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
-import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
 /** Service to interact with state machines. */
 @Service
@@ -19,8 +18,6 @@ public class StateMachineService {
   @Autowired private StateMachinePersister<OrchestrationState, OrchestrationEvent, UUID> persister;
 
   @Autowired private OrchestrationStateMachineFactory stateMachineFactory;
-
-  @Autowired private StateContextHelper contextHelper;
 
   /**
    * Send an event to the state machine with given identifier.
