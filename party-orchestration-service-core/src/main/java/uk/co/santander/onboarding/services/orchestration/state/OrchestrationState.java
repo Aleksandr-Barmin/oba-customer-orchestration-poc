@@ -1,5 +1,6 @@
 package uk.co.santander.onboarding.services.orchestration.state;
 
+/** Enum with list of events which state machine can be in. */
 public enum OrchestrationState {
   /** SM in this state when it is created. */
   MACHINE_CREATED,

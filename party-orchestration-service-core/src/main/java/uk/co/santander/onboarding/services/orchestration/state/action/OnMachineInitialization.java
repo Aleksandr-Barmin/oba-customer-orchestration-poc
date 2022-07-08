@@ -11,6 +11,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/** Action invoked when state machine initializes. Just for debugging purposes. */
 @Slf4j
 @Component
 public class OnMachineInitialization implements Action<OrchestrationState, OrchestrationEvent> {

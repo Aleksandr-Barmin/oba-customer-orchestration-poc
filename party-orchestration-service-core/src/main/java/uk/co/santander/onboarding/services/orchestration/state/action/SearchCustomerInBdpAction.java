@@ -19,6 +19,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/** This action sends request to Core API to check if a customer already created in BDP. */
 @Component
 public class SearchCustomerInBdpAction implements Action<OrchestrationState, OrchestrationEvent> {
   @Autowired private StateContextHelper helper;

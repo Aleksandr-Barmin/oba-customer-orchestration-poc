@@ -12,6 +12,10 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/**
+ * This action is executed when validation of applicant's data was not successful. The main reason
+ * to have this action is to record validation results to the business event.
+ */
 @Component
 public class ApplicantDataValidationFailedAction
     implements Action<OrchestrationState, OrchestrationEvent> {

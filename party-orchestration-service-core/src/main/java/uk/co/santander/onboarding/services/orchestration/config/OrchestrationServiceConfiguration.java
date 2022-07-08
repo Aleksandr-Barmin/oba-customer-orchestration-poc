@@ -12,6 +12,7 @@ import uk.co.santander.onboarding.services.orchestration.service.StateMachineRep
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
+/** Configuration for beans used by state machines. */
 @Configuration
 public class OrchestrationServiceConfiguration {
   @Bean
@@ -26,6 +27,13 @@ public class OrchestrationServiceConfiguration {
     return new InMemoryPersistence();
   }
 
+  /**
+   * Dummy declaration of the state machine repository.
+   *
+   * @param storage considered to be {@link InMemoryPersistence} for development and testing
+   *     purposes.
+   * @return configured bean.
+   */
   @Bean
   @ConditionalOnMissingBean
   public StateMachineRepository<OrchestrationState, OrchestrationEvent, UUID> repository(
