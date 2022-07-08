@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicationInfo;
 
+/** Service to deal with application business events. */
 @Service
 @RequiredArgsConstructor
 public class ApplicationService {

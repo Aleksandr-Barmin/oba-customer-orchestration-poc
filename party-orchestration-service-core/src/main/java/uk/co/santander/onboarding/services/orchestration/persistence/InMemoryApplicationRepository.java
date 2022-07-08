@@ -6,6 +6,10 @@ import java.util.List;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicationInfo;
 import uk.co.santander.onboarding.services.orchestration.service.ApplicationRepository;
 
+/**
+ * Implementation of the application repository which stores all the records in memory. Can be used
+ * for development and testing purposes only.
+ */
 public class InMemoryApplicationRepository implements ApplicationRepository {
   private final List<ApplicationInfo> records = Lists.newArrayList();
 

@@ -10,10 +10,20 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/**
+ * This guard checks if the context has a record about search in BDP results. If the record is
+ * available, and it is negative (not found), this guard allows to proceed.
+ */
 @Component
 public class CustomerNotFoundInBdpGuard implements Guard<OrchestrationState, OrchestrationEvent> {
   @Autowired private StateContextHelper helper;
 
+  /**
+   * Check the context if it contains information about result of search in BDP.
+   *
+   * @param context the state context.
+   * @return possible or not possible to proceed.
+   */
   @Override
   public boolean evaluate(StateContext<OrchestrationState, OrchestrationEvent> context) {
     return Optional.ofNullable(helper.getCustomerSearchStatus(context))

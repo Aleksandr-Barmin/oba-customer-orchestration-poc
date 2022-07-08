@@ -15,6 +15,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 import uk.co.santander.onboarding.services.orchestration.state.validator.PartyDataAndAddressValidator;
 
+/** This action retrieves applicant's data from BaaS API and validates it. */
 @Component
 public class GetAndVerifyApplicantDataAction
     implements Action<OrchestrationState, OrchestrationEvent> {

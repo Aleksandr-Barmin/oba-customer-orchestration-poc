@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
+/** Main state machine listener to output main events into logs. */
 @Slf4j
 @Component
 public class StateMachineListener

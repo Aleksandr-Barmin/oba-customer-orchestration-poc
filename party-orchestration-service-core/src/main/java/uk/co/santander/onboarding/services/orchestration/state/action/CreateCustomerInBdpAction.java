@@ -19,6 +19,10 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/**
+ * This action gets an applicant data from BaaS systems (or from cache if data was requested
+ * earlier) and sends a request to Core API to create a new customer.
+ */
 @Component
 public class CreateCustomerInBdpAction implements Action<OrchestrationState, OrchestrationEvent> {
   @Autowired private StateContextHelper helper;

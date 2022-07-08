@@ -9,6 +9,10 @@ import uk.co.santander.onboarding.services.orchestration.service.StateMachineRep
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
+/**
+ * Implementation of the state machine perist that stores information in memory. Can be used for
+ * development and testing purposes only.
+ */
 public class InMemoryPersistence
     implements StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID>,
         StateMachineRepository<OrchestrationState, OrchestrationEvent, UUID> {

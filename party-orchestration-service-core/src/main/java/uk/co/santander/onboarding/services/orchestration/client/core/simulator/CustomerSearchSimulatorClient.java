@@ -7,6 +7,10 @@ import uk.co.santander.onboarding.core.client.search.CustomerSearchRequest;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
 import uk.co.santander.onboarding.services.orchestration.client.core.DummyImplementation;
 
+/**
+ * Dummy implementation of the {@link CustomerSearchClient} which sends requests to the outer world
+ * simulator using feign client.
+ */
 @Service
 @DummyImplementation
 public class CustomerSearchSimulatorClient implements CustomerSearchClient {

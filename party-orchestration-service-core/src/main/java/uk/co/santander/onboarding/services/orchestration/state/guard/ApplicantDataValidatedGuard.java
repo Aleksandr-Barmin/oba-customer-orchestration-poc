@@ -11,6 +11,7 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
+/** This guard checks that the applicant's data was validated successfully. */
 @Component
 public class ApplicantDataValidatedGuard implements Guard<OrchestrationState, OrchestrationEvent> {
   @Autowired private StateContextHelper helper;

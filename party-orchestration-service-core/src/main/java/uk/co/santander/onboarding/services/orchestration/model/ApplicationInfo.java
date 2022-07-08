@@ -5,6 +5,7 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
 
+/** Business event during the on-boarding process. */
 @Data
 @Builder
 public class ApplicationInfo {
