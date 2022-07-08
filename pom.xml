@@ -113,6 +113,21 @@
 				<artifactId>github-com-twbs-bootstrap</artifactId>
 				<version>5.1.3</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>1.6.9</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-webmvc-core</artifactId>
+				<version>1.6.9</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>3.0.2</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.statemachine</groupId>
@@ -132,7 +147,24 @@
 	</dependencyManagement>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>3.1.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>

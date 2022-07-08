@@ -1,5 +1,8 @@
 package uk.co.santander.onboarding.services.orchestration.baas;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +23,15 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/party/")
+@Tag(name = "BaaS API", description = "BaaS API Simulators")
 public class BaasApiSimulationController {
     @Autowired
     private WorldSimulatorConfig config;
 
     @SneakyThrows
     @GetMapping("/data/{applicantId}")
+    @Operation(summary = "Get an applicant by applicant ID")
+    @ApiResponse(code = 200, response = ApplicantDTO.class, message = "Applicant data")
     public ResponseEntity<ApplicantDTO> getApplicant(final @PathVariable("applicantId") UUID applicantId) {
         final WorldSimulatorConfig.BaasPartyDataSearch partyDataConfig = this.config.getPartyDataSearch();
         TimeUnit.NANOSECONDS.sleep(partyDataConfig.getDelay().getNano());
@@ -51,6 +57,8 @@ public class BaasApiSimulationController {
 
     @SneakyThrows
     @GetMapping("/address/{addressId}")
+    @Operation(summary = "Get an address by address ID")
+    @ApiResponse(code = 200, response = AddressDTO.class, message = "Address data")
     public ResponseEntity<AddressDTO> getAddress(final @PathVariable("addressId") UUID addressId) {
         final WorldSimulatorConfig.BaasPartyAddressSearch partyAddressConfig = config.getPartyAddressSearch();
         TimeUnit.NANOSECONDS.sleep(partyAddressConfig.getDelay().getNano());

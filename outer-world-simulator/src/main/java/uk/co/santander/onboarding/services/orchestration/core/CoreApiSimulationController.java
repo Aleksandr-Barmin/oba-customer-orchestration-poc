@@ -1,5 +1,8 @@
 package uk.co.santander.onboarding.services.orchestration.core;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +22,15 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/core/customer")
+@Tag(name = "Core API", description = "Core API Simulators")
 public class CoreApiSimulationController {
     @Autowired
     private WorldSimulatorConfig config;
 
     @SneakyThrows
     @PostMapping("/search")
+    @Operation(summary = "Search for a customer")
+    @ApiResponse(code = 200, response = CustomerSearchResponse.class, message = "Result of customer search")
     public CustomerSearchResponse searchCustomer(final @RequestBody @Valid CustomerSearchRequest request) {
         final WorldSimulatorConfig.CoreCustomerSearch searchConfig = config.getCustomerSearch();
         TimeUnit.NANOSECONDS.sleep(searchConfig.getDelay().getNano());
@@ -43,6 +49,8 @@ public class CoreApiSimulationController {
 
     @SneakyThrows
     @PostMapping("/create")
+    @Operation(summary = "Create a new customer")
+    @ApiResponse(code = 200, response = CustomerCreateResponse.class, message = "Result of customer creation")
     public CustomerCreateResponse createCustomer(final @RequestBody @Valid CustomerCreateRequest request) {
         final WorldSimulatorConfig.CoreCustomerCreate createConfig = config.getCustomerCreate();
         TimeUnit.NANOSECONDS.sleep(createConfig.getDelay().getNano());
