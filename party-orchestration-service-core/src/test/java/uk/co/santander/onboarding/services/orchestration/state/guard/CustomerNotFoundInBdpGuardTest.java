@@ -1,5 +1,6 @@
 package uk.co.santander.onboarding.services.orchestration.state.guard;
 
+import java.util.Map;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -12,10 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchStatus;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
-
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)

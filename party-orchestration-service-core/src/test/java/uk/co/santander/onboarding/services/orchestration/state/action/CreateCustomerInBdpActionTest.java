@@ -1,6 +1,8 @@
 package uk.co.santander.onboarding.services.orchestration.state.action;
 
 import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +25,15 @@ import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddre
 import uk.co.santander.onboarding.services.orchestration.service.ApplicationService;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
-
-import java.util.Map;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.contains;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {

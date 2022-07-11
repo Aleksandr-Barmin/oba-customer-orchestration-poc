@@ -11,17 +11,21 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEven
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 
-/** Action invoked when state machine initializes. Just for debugging purposes. */
+/**
+ * Action invoked when state machine initializes. Just for debugging purposes.
+ */
 @Slf4j
 @Component
 public class OnMachineInitialization implements Action<OrchestrationState, OrchestrationEvent> {
-  @Autowired private StateContextHelper contextHelper;
+    @Autowired
+    private StateContextHelper contextHelper;
 
-  @Autowired private ApplicationService applicationService;
+    @Autowired
+    private ApplicationService applicationService;
 
-  @Override
-  public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
-    final UUID applicationId = contextHelper.getApplicationId(context);
-    applicationService.createRecord(applicationId, "Empty application record created");
-  }
+    @Override
+    public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
+        final UUID applicationId = contextHelper.getApplicationId(context);
+        applicationService.createRecord(applicationId, "Empty application record created");
+    }
 }

@@ -25,49 +25,54 @@ import uk.co.santander.onboarding.services.orchestration.state.helper.StateConte
  */
 @Component
 public class CreateCustomerInBdpAction implements Action<OrchestrationState, OrchestrationEvent> {
-  @Autowired private StateContextHelper helper;
+    @Autowired
+    private StateContextHelper helper;
 
-  @Autowired private CustomerCreateRequestAdapter requestAdapter;
+    @Autowired
+    private CustomerCreateRequestAdapter requestAdapter;
 
-  @Autowired private CustomerCreateClient createClient;
+    @Autowired
+    private CustomerCreateClient createClient;
 
-  @Autowired private PartyDataFacade partyDataFacade;
+    @Autowired
+    private PartyDataFacade partyDataFacade;
 
-  @Autowired private ApplicationService applicationService;
+    @Autowired
+    private ApplicationService applicationService;
 
-  @Override
-  public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
-    final UUID applicationId = helper.getApplicationId(context);
-    if (Objects.isNull(applicationId)) {
-      throw new IllegalStateException("Applicant ID should be in context");
+    @Override
+    public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
+        final UUID applicationId = helper.getApplicationId(context);
+        if (Objects.isNull(applicationId)) {
+            throw new IllegalStateException("Applicant ID should be in context");
+        }
+
+        final CustomerSearchStatus searchStatus = helper.getCustomerSearchStatus(context);
+        if (Objects.isNull(searchStatus)) {
+            throw new IllegalStateException("Search results should be in context");
+        }
+
+        if (searchStatus.isFound()) {
+            throw new IllegalStateException("Search result should be negative");
+        }
+
+        applicationService.createRecord(applicationId, "Creating customer in BDP");
+
+        final PartyDataAndAddress partyData = partyDataFacade.getPartyData(applicationId);
+        final CustomerCreateRequest createCustomerRequest = requestAdapter.build(partyData);
+
+        final CustomerCreateResponse response = createClient.create(createCustomerRequest);
+
+        // TODO: rewrite using helper
+        context
+                .getExtendedState()
+                .getVariables()
+                .put(StateConstants.CORE_CREATE_DBP_UUID, response.getBdpUuid());
+        context
+                .getExtendedState()
+                .getVariables()
+                .put(StateConstants.CORE_CREATE_F_NUMBER, response.getFnumber());
+
+        applicationService.createRecord(applicationId, "Customer created in BDP");
     }
-
-    final CustomerSearchStatus searchStatus = helper.getCustomerSearchStatus(context);
-    if (Objects.isNull(searchStatus)) {
-      throw new IllegalStateException("Search results should be in context");
-    }
-
-    if (searchStatus.isFound()) {
-      throw new IllegalStateException("Search result should be negative");
-    }
-
-    applicationService.createRecord(applicationId, "Creating customer in BDP");
-
-    final PartyDataAndAddress partyData = partyDataFacade.getPartyData(applicationId);
-    final CustomerCreateRequest createCustomerRequest = requestAdapter.build(partyData);
-
-    final CustomerCreateResponse response = createClient.create(createCustomerRequest);
-
-    // TODO: rewrite using helper
-    context
-        .getExtendedState()
-        .getVariables()
-        .put(StateConstants.CORE_CREATE_DBP_UUID, response.getBdpUuid());
-    context
-        .getExtendedState()
-        .getVariables()
-        .put(StateConstants.CORE_CREATE_F_NUMBER, response.getFnumber());
-
-    applicationService.createRecord(applicationId, "Customer created in BDP");
-  }
 }

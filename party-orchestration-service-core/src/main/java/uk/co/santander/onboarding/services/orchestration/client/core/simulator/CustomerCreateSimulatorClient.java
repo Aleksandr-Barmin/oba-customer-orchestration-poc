@@ -14,10 +14,11 @@ import uk.co.santander.onboarding.services.orchestration.client.core.DummyImplem
 @Service
 @DummyImplementation
 public class CustomerCreateSimulatorClient implements CustomerCreateClient {
-  @Autowired private CustomerCreateFeignClient feignClient;
+    @Autowired
+    private CustomerCreateFeignClient feignClient;
 
-  @Override
-  public CustomerCreateResponse create(CustomerCreateRequest request) {
-    return feignClient.createCustomer(request);
-  }
+    @Override
+    public CustomerCreateResponse create(CustomerCreateRequest request) {
+        return feignClient.createCustomer(request);
+    }
 }

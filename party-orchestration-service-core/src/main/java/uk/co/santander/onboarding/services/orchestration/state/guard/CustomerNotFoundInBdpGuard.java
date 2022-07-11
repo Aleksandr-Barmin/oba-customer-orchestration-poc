@@ -16,19 +16,20 @@ import uk.co.santander.onboarding.services.orchestration.state.helper.StateConte
  */
 @Component
 public class CustomerNotFoundInBdpGuard implements Guard<OrchestrationState, OrchestrationEvent> {
-  @Autowired private StateContextHelper helper;
+    @Autowired
+    private StateContextHelper helper;
 
-  /**
-   * Check the context if it contains information about result of search in BDP.
-   *
-   * @param context the state context.
-   * @return possible or not possible to proceed.
-   */
-  @Override
-  public boolean evaluate(StateContext<OrchestrationState, OrchestrationEvent> context) {
-    return Optional.ofNullable(helper.getCustomerSearchStatus(context))
-        .map(CustomerSearchStatus::isFound)
-        .map(value -> !value)
-        .orElse(Boolean.TRUE); // not allowing by default
-  }
+    /**
+     * Check the context if it contains information about result of search in BDP.
+     *
+     * @param context the state context.
+     * @return possible or not possible to proceed.
+     */
+    @Override
+    public boolean evaluate(StateContext<OrchestrationState, OrchestrationEvent> context) {
+        return Optional.ofNullable(helper.getCustomerSearchStatus(context))
+                .map(CustomerSearchStatus::isFound)
+                .map(value -> !value)
+                .orElse(Boolean.TRUE); // not allowing by default
+    }
 }

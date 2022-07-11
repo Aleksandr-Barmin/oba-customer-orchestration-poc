@@ -15,32 +15,33 @@ import uk.co.santander.onboarding.services.orchestration.service.ApplicationRepo
  */
 @Controller
 public class DebugApplicationController {
-  @Autowired private ApplicationRepository repository;
+    @Autowired
+    private ApplicationRepository repository;
 
-  /**
-   * Render a view with list of application events.
-   *
-   * @param modelAndView provided by Spring.
-   * @return model and view to render.
-   */
-  @GetMapping("/web/applications")
-  public ModelAndView applicationRecords(final ModelAndView modelAndView) {
-    modelAndView.setViewName("applications");
+    /**
+     * Render a view with list of application events.
+     *
+     * @param modelAndView provided by Spring.
+     * @return model and view to render.
+     */
+    @GetMapping("/web/applications")
+    public ModelAndView applicationRecords(final ModelAndView modelAndView) {
+        modelAndView.setViewName("applications");
 
-    final List<ApplicationInfoRecord> records =
-        repository.findAll().stream()
-            .collect(Collectors.groupingBy(ApplicationInfo::getApplicationId))
-            .entrySet()
-            .stream()
-            .map(
-                entry ->
-                    ApplicationInfoRecord.builder()
-                        .applicationId(entry.getKey().toString())
-                        .records(entry.getValue())
-                        .build())
-            .collect(Collectors.toList());
+        final List<ApplicationInfoRecord> records =
+                repository.findAll().stream()
+                        .collect(Collectors.groupingBy(ApplicationInfo::getApplicationId))
+                        .entrySet()
+                        .stream()
+                        .map(
+                                entry ->
+                                        ApplicationInfoRecord.builder()
+                                                .applicationId(entry.getKey().toString())
+                                                .records(entry.getValue())
+                                                .build())
+                        .collect(Collectors.toList());
 
-    modelAndView.addObject("records", records);
-    return modelAndView;
-  }
+        modelAndView.addObject("records", records);
+        return modelAndView;
+    }
 }

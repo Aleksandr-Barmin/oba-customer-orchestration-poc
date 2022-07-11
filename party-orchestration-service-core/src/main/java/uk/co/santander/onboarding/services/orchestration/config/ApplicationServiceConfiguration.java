@@ -12,14 +12,14 @@ import uk.co.santander.onboarding.services.orchestration.service.ApplicationRepo
  */
 @Configuration(proxyBeanMethods = false)
 public final class ApplicationServiceConfiguration {
-  /**
-   * Declaring a bean which actually stores information about application business events.
-   *
-   * @return application repository bean.
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public ApplicationRepository applicationRepository() {
-    return new InMemoryApplicationRepository();
-  }
+    /**
+     * Declaring a bean which actually stores information about application business events.
+     *
+     * @return application repository bean.
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ApplicationRepository applicationRepository() {
+        return new InMemoryApplicationRepository();
+    }
 }

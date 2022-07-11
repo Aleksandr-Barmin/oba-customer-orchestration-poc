@@ -15,41 +15,47 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
 import uk.co.santander.onboarding.services.orchestration.state.validator.PartyDataAndAddressValidator;
 
-/** This action retrieves applicant's data from BaaS API and validates it. */
+/**
+ * This action retrieves applicant's data from BaaS API and validates it.
+ */
 @Component
 public class GetAndVerifyApplicantDataAction
-    implements Action<OrchestrationState, OrchestrationEvent> {
-  @Autowired private StateContextHelper helper;
+        implements Action<OrchestrationState, OrchestrationEvent> {
+    @Autowired
+    private StateContextHelper helper;
 
-  @Autowired private ApplicationService applicationService;
+    @Autowired
+    private ApplicationService applicationService;
 
-  @Autowired private PartyDataFacade partyDataFacade;
+    @Autowired
+    private PartyDataFacade partyDataFacade;
 
-  @Autowired private PartyDataAndAddressValidator dataValidator;
+    @Autowired
+    private PartyDataAndAddressValidator dataValidator;
 
-  @Override
-  public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
-    final UUID applicationId = helper.getApplicationId(context);
-    Objects.requireNonNull(applicationId, "Application ID should be provided");
+    @Override
+    public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
+        final UUID applicationId = helper.getApplicationId(context);
+        Objects.requireNonNull(applicationId, "Application ID should be provided");
 
-    applicationService.createRecord(applicationId, "Start getting info from party data service");
+        applicationService.createRecord(applicationId, "Start getting info from party data service");
 
-    final PartyDataAndAddress partyData = partyDataFacade.getPartyData(applicationId);
+        final PartyDataAndAddress partyData = partyDataFacade.getPartyData(applicationId);
 
-    // can't proceed without applicant
-    if (partyData.getApplicantOptional().isEmpty()) {
-      helper.setApplicantValidationResult(context, ApplicantValidationResult.noApplicant());
+        // can't proceed without applicant
+        if (partyData.getApplicantOptional().isEmpty()) {
+            helper.setApplicantValidationResult(context, ApplicantValidationResult.noApplicant());
 
-      applicationService.createRecord(applicationId, "Data not received from party data service");
-      return;
+            applicationService.createRecord(applicationId, "Data not received from party data service");
+            return;
+        }
+
+        // validating
+        final ApplicantValidationResult validationResult = dataValidator.validate(partyData);
+
+        helper.setApplicantValidationResult(context, validationResult);
+
+        applicationService.createRecord(
+                applicationId, String.format("Validation result is %s", validationResult.getStatus()));
     }
-
-    // validating
-    final ApplicantValidationResult validationResult = dataValidator.validate(partyData);
-
-    helper.setApplicantValidationResult(context, validationResult);
-
-    applicationService.createRecord(
-        applicationId, String.format("Validation result is %s", validationResult.getStatus()));
-  }
 }

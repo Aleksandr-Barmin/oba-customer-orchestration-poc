@@ -11,9 +11,9 @@ import org.springframework.statemachine.StateMachineContext;
  * @param <T> type of context object - state machine ID.
  */
 public interface StateMachineRepository<S, E, T> {
-  boolean isAvailable(T applicationId);
+    boolean isAvailable(T applicationId);
 
-  void write(StateMachineContext<S, E> context, T contextObj) throws Exception;
+    void write(StateMachineContext<S, E> context, T contextObj) throws Exception;
 
-  StateMachineContext<S, E> read(T contextObj) throws Exception;
+    StateMachineContext<S, E> read(T contextObj) throws Exception;
 }

@@ -12,12 +12,12 @@ import uk.co.santander.onboarding.core.client.create.CustomerCreateResponse;
  */
 @FeignClient(name = "core-customer-create-client", url = "${client.core-customer-create.base-url}")
 public interface CustomerCreateFeignClient {
-  /**
-   * Send a request to create a customer in BDP via Core API.
-   *
-   * @param request to be sent.
-   * @return response from Core API (simulated response).
-   */
-  @PostMapping("/")
-  CustomerCreateResponse createCustomer(@RequestBody CustomerCreateRequest request);
+    /**
+     * Send a request to create a customer in BDP via Core API.
+     *
+     * @param request to be sent.
+     * @return response from Core API (simulated response).
+     */
+    @PostMapping("/")
+    CustomerCreateResponse createCustomer(@RequestBody CustomerCreateRequest request);
 }

@@ -5,11 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import uk.co.santander.onboarding.services.orchestration.config.WorldSimulatorConfig;
 
-/** Outer world simulation Spring Boot application. */
+/**
+ * Outer world simulation Spring Boot application.
+ */
 @SpringBootApplication
 @EnableConfigurationProperties(WorldSimulatorConfig.class)
 public class WorldSimulatorApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(WorldSimulatorApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(WorldSimulatorApplication.class, args);
+    }
 }

@@ -20,74 +20,77 @@ import uk.co.santander.onboarding.services.party.dto.ApplicantDTO;
 import uk.co.santander.onboarding.services.party.dto.ContactPointDTO;
 import uk.co.santander.onboarding.services.party.dto.PostalAddressesDTO;
 
-/** BaaS API simulator. */
+/**
+ * BaaS API simulator.
+ */
 @RestController
 @RequestMapping("/party/")
 @Tag(name = "BaaS API", description = "BaaS API Simulators")
 public class BaasApiSimulationController {
-  @Autowired private WorldSimulatorConfig config;
+    @Autowired
+    private WorldSimulatorConfig config;
 
-  /**
-   * Simulate behavior of party data service.
-   *
-   * @param applicantId identifier of an applicant.
-   * @return applicant data or 404 error.
-   */
-  @SneakyThrows
-  @GetMapping("/data/{applicantId}")
-  @Operation(summary = "Get an applicant by applicant ID")
-  @ApiResponse(code = 200, response = ApplicantDTO.class, message = "Applicant data")
-  public ResponseEntity<ApplicantDTO> getApplicant(
-      final @PathVariable("applicantId") UUID applicantId) {
-    final WorldSimulatorConfig.BaasPartyDataSearch partyDataConfig =
-        this.config.getPartyDataSearch();
-    TimeUnit.NANOSECONDS.sleep(partyDataConfig.getDelay().getNano());
+    /**
+     * Simulate behavior of party data service.
+     *
+     * @param applicantId identifier of an applicant.
+     * @return applicant data or 404 error.
+     */
+    @SneakyThrows
+    @GetMapping("/data/{applicantId}")
+    @Operation(summary = "Get an applicant by applicant ID")
+    @ApiResponse(code = 200, response = ApplicantDTO.class, message = "Applicant data")
+    public ResponseEntity<ApplicantDTO> getApplicant(
+            final @PathVariable("applicantId") UUID applicantId) {
+        final WorldSimulatorConfig.BaasPartyDataSearch partyDataConfig =
+                this.config.getPartyDataSearch();
+        TimeUnit.NANOSECONDS.sleep(partyDataConfig.getDelay().getNano());
 
-    if (partyDataConfig.isFound()) {
-      final ApplicantDTO applicantDto =
-          ApplicantDTO.builder()
-              .applicantId(applicantId)
-              .contactPoint(
-                  ContactPointDTO.builder()
-                      .postalAddresses(
-                          List.of(
-                              PostalAddressesDTO.builder().addressId(UUID.randomUUID()).build()))
-                      .build())
-              .build();
+        if (partyDataConfig.isFound()) {
+            final ApplicantDTO applicantDto =
+                    ApplicantDTO.builder()
+                            .applicantId(applicantId)
+                            .contactPoint(
+                                    ContactPointDTO.builder()
+                                            .postalAddresses(
+                                                    List.of(
+                                                            PostalAddressesDTO.builder().addressId(UUID.randomUUID()).build()))
+                                            .build())
+                            .build();
 
-      return ResponseEntity.ok(applicantDto);
+            return ResponseEntity.ok(applicantDto);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
-    return ResponseEntity.notFound().build();
-  }
+    /**
+     * Simulate behavior of party address service.
+     *
+     * @param addressId identifier of an address.
+     * @return address data or 404 if not found.
+     */
+    @SneakyThrows
+    @GetMapping("/address/{addressId}")
+    @Operation(summary = "Get an address by address ID")
+    @ApiResponse(code = 200, response = AddressDTO.class, message = "Address data")
+    public ResponseEntity<AddressDTO> getAddress(final @PathVariable("addressId") UUID addressId) {
+        final WorldSimulatorConfig.BaasPartyAddressSearch partyAddressConfig =
+                config.getPartyAddressSearch();
+        TimeUnit.NANOSECONDS.sleep(partyAddressConfig.getDelay().getNano());
 
-  /**
-   * Simulate behavior of party address service.
-   *
-   * @param addressId identifier of an address.
-   * @return address data or 404 if not found.
-   */
-  @SneakyThrows
-  @GetMapping("/address/{addressId}")
-  @Operation(summary = "Get an address by address ID")
-  @ApiResponse(code = 200, response = AddressDTO.class, message = "Address data")
-  public ResponseEntity<AddressDTO> getAddress(final @PathVariable("addressId") UUID addressId) {
-    final WorldSimulatorConfig.BaasPartyAddressSearch partyAddressConfig =
-        config.getPartyAddressSearch();
-    TimeUnit.NANOSECONDS.sleep(partyAddressConfig.getDelay().getNano());
+        if (partyAddressConfig.isFound()) {
+            final AddressDTO addressDto =
+                    AddressDTO.builder()
+                            .applicant(
+                                    uk.co.santander.onboarding.services.address.address.dto.ApplicantDTO.builder()
+                                            .applicantId(UUID.randomUUID())
+                                            .build())
+                            .postalAddress(PostalAddressDTO.builder().addressId(addressId).build())
+                            .build();
 
-    if (partyAddressConfig.isFound()) {
-      final AddressDTO addressDto =
-          AddressDTO.builder()
-              .applicant(
-                  uk.co.santander.onboarding.services.address.address.dto.ApplicantDTO.builder()
-                      .applicantId(UUID.randomUUID())
-                      .build())
-              .postalAddress(PostalAddressDTO.builder().addressId(addressId).build())
-              .build();
-
-      return ResponseEntity.ok(addressDto);
+            return ResponseEntity.ok(addressDto);
+        }
+        return ResponseEntity.notFound().build();
     }
-    return ResponseEntity.notFound().build();
-  }
 }

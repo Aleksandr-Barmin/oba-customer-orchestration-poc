@@ -1,6 +1,10 @@
 package uk.co.santander.onboarding.services.orchestration.state.action;
 
 import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,12 +17,12 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
-import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddress;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddressServiceClient;
+import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
+import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddress;
 import uk.co.santander.onboarding.services.orchestration.service.ApplicationService;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
@@ -26,13 +30,8 @@ import uk.co.santander.onboarding.services.orchestration.state.validator.PartyDa
 import uk.co.santander.onboarding.services.party.dto.ApplicantDTO;
 import uk.co.santander.onboarding.services.party.dto.ContactPointDTO;
 import uk.co.santander.onboarding.services.party.dto.PostalAddressesDTO;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;

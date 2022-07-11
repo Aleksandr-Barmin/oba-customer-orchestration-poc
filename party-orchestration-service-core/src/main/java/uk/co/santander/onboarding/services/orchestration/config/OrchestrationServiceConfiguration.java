@@ -12,35 +12,37 @@ import uk.co.santander.onboarding.services.orchestration.service.StateMachineRep
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationEvent;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
-/** Configuration for beans used by state machines. */
+/**
+ * Configuration for beans used by state machines.
+ */
 @Configuration
 public class OrchestrationServiceConfiguration {
-  @Bean
-  public StateMachinePersister<OrchestrationState, OrchestrationEvent, UUID> persister(
-      StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID> storage) {
-    return new DefaultStateMachinePersister<>(storage);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  public StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID> persist() {
-    return new InMemoryPersistence();
-  }
-
-  /**
-   * Dummy declaration of the state machine repository.
-   *
-   * @param storage considered to be {@link InMemoryPersistence} for development and testing
-   *     purposes.
-   * @return configured bean.
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public StateMachineRepository<OrchestrationState, OrchestrationEvent, UUID> repository(
-      StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID> storage) {
-    if (storage instanceof StateMachineRepository) {
-      return StateMachineRepository.class.cast(storage);
+    @Bean
+    public StateMachinePersister<OrchestrationState, OrchestrationEvent, UUID> persister(
+            StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID> storage) {
+        return new DefaultStateMachinePersister<>(storage);
     }
-    throw new RuntimeException("Declare a bean separately");
-  }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID> persist() {
+        return new InMemoryPersistence();
+    }
+
+    /**
+     * Dummy declaration of the state machine repository.
+     *
+     * @param storage considered to be {@link InMemoryPersistence} for development and testing
+     *                purposes.
+     * @return configured bean.
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public StateMachineRepository<OrchestrationState, OrchestrationEvent, UUID> repository(
+            StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID> storage) {
+        if (storage instanceof StateMachineRepository) {
+            return StateMachineRepository.class.cast(storage);
+        }
+        throw new RuntimeException("Declare a bean separately");
+    }
 }

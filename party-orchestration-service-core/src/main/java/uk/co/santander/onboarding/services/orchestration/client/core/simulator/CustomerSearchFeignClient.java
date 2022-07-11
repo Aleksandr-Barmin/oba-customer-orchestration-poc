@@ -12,12 +12,12 @@ import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
  */
 @FeignClient(name = "core-customer-search-client", url = "${client.core-customer-search.base-url}")
 public interface CustomerSearchFeignClient {
-  /**
-   * Send a request to search for a customer in BDP via Core API.
-   *
-   * @param request to be sent to Core API.
-   * @return response from Core API.
-   */
-  @PostMapping("")
-  CustomerSearchResponse searchCustomer(@RequestBody CustomerSearchRequest request);
+    /**
+     * Send a request to search for a customer in BDP via Core API.
+     *
+     * @param request to be sent to Core API.
+     * @return response from Core API.
+     */
+    @PostMapping("")
+    CustomerSearchResponse searchCustomer(@RequestBody CustomerSearchRequest request);
 }

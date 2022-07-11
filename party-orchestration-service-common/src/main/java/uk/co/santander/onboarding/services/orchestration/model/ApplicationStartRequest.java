@@ -4,15 +4,26 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 
-/** DTO for the request. */
+/**
+ * DTO for the request.
+ */
 @Data
 public class ApplicationStartRequest {
-  /** Identifier of the applicant. */
-  @NotNull private UUID applicantId;
+    /**
+     * Identifier of the applicant.
+     */
+    @NotNull
+    private UUID applicantId;
 
-  /** Application channel. */
-  @NotNull private ApplicationChannel channel;
+    /**
+     * Application channel.
+     */
+    @NotNull
+    private ApplicationChannel channel;
 
-  /** Customer type. */
-  @NotNull private CustomerType customerType;
+    /**
+     * Customer type.
+     */
+    @NotNull
+    private CustomerType customerType;
 }

@@ -14,27 +14,27 @@ import uk.co.santander.onboarding.services.orchestration.state.OrchestrationStat
  * development and testing purposes only.
  */
 public class InMemoryPersistence
-    implements StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID>,
+        implements StateMachinePersist<OrchestrationState, OrchestrationEvent, UUID>,
         StateMachineRepository<OrchestrationState, OrchestrationEvent, UUID> {
 
-  private final Map<UUID, StateMachineContext<OrchestrationState, OrchestrationEvent>> storage =
-      new ConcurrentHashMap<>();
+    private final Map<UUID, StateMachineContext<OrchestrationState, OrchestrationEvent>> storage =
+            new ConcurrentHashMap<>();
 
-  @Override
-  public boolean isAvailable(UUID applicationId) {
-    return storage.containsKey(applicationId);
-  }
+    @Override
+    public boolean isAvailable(UUID applicationId) {
+        return storage.containsKey(applicationId);
+    }
 
-  @Override
-  public void write(
-      StateMachineContext<OrchestrationState, OrchestrationEvent> context, UUID contextObj)
-      throws Exception {
-    storage.put(contextObj, context);
-  }
+    @Override
+    public void write(
+            StateMachineContext<OrchestrationState, OrchestrationEvent> context, UUID contextObj)
+            throws Exception {
+        storage.put(contextObj, context);
+    }
 
-  @Override
-  public StateMachineContext<OrchestrationState, OrchestrationEvent> read(UUID contextObj)
-      throws Exception {
-    return storage.get(contextObj);
-  }
+    @Override
+    public StateMachineContext<OrchestrationState, OrchestrationEvent> read(UUID contextObj)
+            throws Exception {
+        return storage.get(contextObj);
+    }
 }

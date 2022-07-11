@@ -18,88 +18,98 @@ import uk.co.santander.onboarding.services.orchestration.state.action.SearchCust
 import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
 import uk.co.santander.onboarding.services.orchestration.state.guard.CustomerNotFoundInBdpGuard;
 
-/** Configuration of the customer on-boarding state machine. */
+/**
+ * Configuration of the customer on-boarding state machine.
+ */
 @Slf4j
 @Configuration
 @EnableStateMachineFactory
 public class StateMachineDefinition
-    extends EnumStateMachineConfigurerAdapter<OrchestrationState, OrchestrationEvent> {
-  public static final String MACHINE_NAME = "orchestration_machine";
+        extends EnumStateMachineConfigurerAdapter<OrchestrationState, OrchestrationEvent> {
+    public static final String MACHINE_NAME = "orchestration_machine";
 
-  @Autowired private StateMachineListener listener;
+    @Autowired
+    private StateMachineListener listener;
 
-  @Autowired private OnMachineInitialization onMachineInitialization;
+    @Autowired
+    private OnMachineInitialization onMachineInitialization;
 
-  @Autowired private GetAndVerifyApplicantDataAction getAndVerifyApplicantDataAction;
+    @Autowired
+    private GetAndVerifyApplicantDataAction getAndVerifyApplicantDataAction;
 
-  @Autowired private ApplicantDataValidationFailedAction applicantDataValidationFailedAction;
+    @Autowired
+    private ApplicantDataValidationFailedAction applicantDataValidationFailedAction;
 
-  @Autowired private ApplicantDataValidatedGuard applicantDataValidatedGuard;
+    @Autowired
+    private ApplicantDataValidatedGuard applicantDataValidatedGuard;
 
-  @Autowired private SearchCustomerInBdpAction searchCustomerInBdpAction;
+    @Autowired
+    private SearchCustomerInBdpAction searchCustomerInBdpAction;
 
-  @Autowired private CustomerNotFoundInBdpGuard customerNotFoundInBdpGuard;
+    @Autowired
+    private CustomerNotFoundInBdpGuard customerNotFoundInBdpGuard;
 
-  @Autowired private CreateCustomerInBdpAction createCustomerInBdpAction;
+    @Autowired
+    private CreateCustomerInBdpAction createCustomerInBdpAction;
 
-  @Override
-  public void configure(
-      StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions)
-      throws Exception {
-    transitions
-        .withExternal()
-        .source(OrchestrationState.MACHINE_CREATED)
-        .target(OrchestrationState.MACHINE_INITIALIZED)
-        .event(OrchestrationEvent.START_EXECUTION)
-        .action(onMachineInitialization) // TODO rename the action
-        .and()
-        .withExternal()
-        .source(OrchestrationState.MACHINE_INITIALIZED)
-        .target(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
-        .action(getAndVerifyApplicantDataAction)
-        .and()
-        .withJunction()
-        .source(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
-        .first(
-            // if validation is ok
-            OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE,
-            applicantDataValidatedGuard,
-            searchCustomerInBdpAction)
-        .last(
-            // else
-            OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
-            applicantDataValidationFailedAction)
-        .and()
-        .withJunction()
-        .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
-        .first(
-            // not found in BDP
-            OrchestrationState.CUSTOMER_CREATION_STATE,
-                customerNotFoundInBdpGuard,
-            createCustomerInBdpAction)
-        .last(
-            // found in BDP, can't proceed
-            OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
-        .and();
-  }
+    @Override
+    public void configure(
+            StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions)
+            throws Exception {
+        transitions
+                .withExternal()
+                .source(OrchestrationState.MACHINE_CREATED)
+                .target(OrchestrationState.MACHINE_INITIALIZED)
+                .event(OrchestrationEvent.START_EXECUTION)
+                .action(onMachineInitialization) // TODO rename the action
+                .and()
+                .withExternal()
+                .source(OrchestrationState.MACHINE_INITIALIZED)
+                .target(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                .action(getAndVerifyApplicantDataAction)
+                .and()
+                .withJunction()
+                .source(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                .first( // if validation is ok
+                        OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE,
+                        applicantDataValidatedGuard,
+                        searchCustomerInBdpAction
+                )
+                .last(// else
+                        OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
+                        applicantDataValidationFailedAction
+                )
+                .and()
+                .withJunction()
+                .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
+                .first( // not found in BDP
+                        OrchestrationState.CUSTOMER_CREATION_STATE,
+                        customerNotFoundInBdpGuard,
+                        createCustomerInBdpAction
+                )
+                .last( // found in BDP, can't proceed
+                        OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE
+                )
+                .and();
+    }
 
-  @Override
-  public void configure(StateMachineStateConfigurer<OrchestrationState, OrchestrationEvent> states)
-      throws Exception {
-    states
-        .withStates()
-        .initial(OrchestrationState.MACHINE_CREATED)
-        .junction(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
-        .junction(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
-        .end(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
-        .end(OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
-        .states(EnumSet.allOf(OrchestrationState.class));
-  }
+    @Override
+    public void configure(StateMachineStateConfigurer<OrchestrationState, OrchestrationEvent> states)
+            throws Exception {
+        states
+                .withStates()
+                .initial(OrchestrationState.MACHINE_CREATED)
+                .junction(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                .junction(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
+                .end(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
+                .end(OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
+                .states(EnumSet.allOf(OrchestrationState.class));
+    }
 
-  @Override
-  public void configure(
-      StateMachineConfigurationConfigurer<OrchestrationState, OrchestrationEvent> config)
-      throws Exception {
-    config.withConfiguration().autoStartup(false).listener(listener).machineId(MACHINE_NAME);
-  }
+    @Override
+    public void configure(
+            StateMachineConfigurationConfigurer<OrchestrationState, OrchestrationEvent> config)
+            throws Exception {
+        config.withConfiguration().autoStartup(false).listener(listener).machineId(MACHINE_NAME);
+    }
 }

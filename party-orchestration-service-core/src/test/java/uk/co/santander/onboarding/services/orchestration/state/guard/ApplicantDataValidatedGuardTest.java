@@ -1,5 +1,6 @@
 package uk.co.santander.onboarding.services.orchestration.state.guard;
 
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,9 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateContextHelper;
-
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;

@@ -1,5 +1,8 @@
 package uk.co.santander.onboarding.services.orchestration.client.baas;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +15,6 @@ import uk.co.santander.onboarding.services.orchestration.model.PartyDataAndAddre
 import uk.co.santander.onboarding.services.party.dto.ApplicantDTO;
 import uk.co.santander.onboarding.services.party.dto.ContactPointDTO;
 import uk.co.santander.onboarding.services.party.dto.PostalAddressesDTO;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;

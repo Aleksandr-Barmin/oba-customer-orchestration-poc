@@ -18,27 +18,29 @@ import uk.co.santander.onboarding.services.orchestration.state.helper.StateConte
  */
 @Component
 public class ApplicantDataValidationFailedAction
-    implements Action<OrchestrationState, OrchestrationEvent> {
-  @Autowired private StateContextHelper helper;
+        implements Action<OrchestrationState, OrchestrationEvent> {
+    @Autowired
+    private StateContextHelper helper;
 
-  @Autowired private ApplicationService applicationService;
+    @Autowired
+    private ApplicationService applicationService;
 
-  @Override
-  public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
-    final UUID applicationId = helper.getApplicationId(context);
-    final ApplicantValidationResult validationResult =
-        helper.getApplicationValidationResult(context);
+    @Override
+    public void execute(StateContext<OrchestrationState, OrchestrationEvent> context) {
+        final UUID applicationId = helper.getApplicationId(context);
+        final ApplicantValidationResult validationResult =
+                helper.getApplicationValidationResult(context);
 
-    if (Objects.isNull(validationResult) || validationResult.isUnknown()) {
-      throw new IllegalStateException("Validation result should be in the context");
+        if (Objects.isNull(validationResult) || validationResult.isUnknown()) {
+            throw new IllegalStateException("Validation result should be in the context");
+        }
+
+        if (!validationResult.isNegative()) {
+            throw new IllegalStateException("Validation result should be negative");
+        }
+
+        applicationService.createRecord(
+                applicationId,
+                String.format("Failed due to the validation error: %s", validationResult.getMessage()));
     }
-
-    if (!validationResult.isNegative()) {
-      throw new IllegalStateException("Validation result should be negative");
-    }
-
-    applicationService.createRecord(
-        applicationId,
-        String.format("Failed due to the validation error: %s", validationResult.getMessage()));
-  }
 }

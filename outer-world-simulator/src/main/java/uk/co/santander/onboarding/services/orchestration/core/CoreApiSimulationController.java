@@ -19,59 +19,62 @@ import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchStatus;
 import uk.co.santander.onboarding.services.orchestration.config.WorldSimulatorConfig;
 
-/** Core API simulator. */
+/**
+ * Core API simulator.
+ */
 @RestController
 @RequestMapping("/core/customer")
 @Tag(name = "Core API", description = "Core API Simulators")
 public class CoreApiSimulationController {
-  @Autowired private WorldSimulatorConfig config;
+    @Autowired
+    private WorldSimulatorConfig config;
 
-  /**
-   * Simulates Customer Search Core API.
-   *
-   * @param request for the Core API.
-   * @return response of the Core API.
-   */
-  @SneakyThrows
-  @PostMapping("/search")
-  @Operation(summary = "Search for a customer")
-  @ApiResponse(
-      code = 200,
-      response = CustomerSearchResponse.class,
-      message = "Result of customer search")
-  public CustomerSearchResponse searchCustomer(
-      final @RequestBody @Valid CustomerSearchRequest request) {
-    final WorldSimulatorConfig.CoreCustomerSearch searchConfig = config.getCustomerSearch();
-    TimeUnit.NANOSECONDS.sleep(searchConfig.getDelay().getNano());
+    /**
+     * Simulates Customer Search Core API.
+     *
+     * @param request for the Core API.
+     * @return response of the Core API.
+     */
+    @SneakyThrows
+    @PostMapping("/search")
+    @Operation(summary = "Search for a customer")
+    @ApiResponse(
+            code = 200,
+            response = CustomerSearchResponse.class,
+            message = "Result of customer search")
+    public CustomerSearchResponse searchCustomer(
+            final @RequestBody @Valid CustomerSearchRequest request) {
+        final WorldSimulatorConfig.CoreCustomerSearch searchConfig = config.getCustomerSearch();
+        TimeUnit.NANOSECONDS.sleep(searchConfig.getDelay().getNano());
 
-    if (searchConfig.isFound()) {
-      return CustomerSearchResponse.builder()
-          .status(CustomerSearchStatus.FOUND_SINGLE)
-          .bdpUuid(UUID.randomUUID())
-          .fnumber("F123456")
-          .build();
+        if (searchConfig.isFound()) {
+            return CustomerSearchResponse.builder()
+                    .status(CustomerSearchStatus.FOUND_SINGLE)
+                    .bdpUuid(UUID.randomUUID())
+                    .fnumber("F123456")
+                    .build();
+        }
+        return CustomerSearchResponse.builder().status(CustomerSearchStatus.NOT_FOUND).build();
     }
-    return CustomerSearchResponse.builder().status(CustomerSearchStatus.NOT_FOUND).build();
-  }
 
-  /**
-   * Simulate Customer Create Core API.
-   *
-   * @param request for Core API.
-   * @return response of Core API.
-   */
-  @SneakyThrows
-  @PostMapping("/create")
-  @Operation(summary = "Create a new customer")
-  @ApiResponse(
-      code = 200,
-      response = CustomerCreateResponse.class,
-      message = "Result of customer creation")
-  public CustomerCreateResponse createCustomer(
-      final @RequestBody @Valid CustomerCreateRequest request) {
-    final WorldSimulatorConfig.CoreCustomerCreate createConfig = config.getCustomerCreate();
-    TimeUnit.NANOSECONDS.sleep(createConfig.getDelay().getNano());
+    /**
+     * Simulate Customer Create Core API.
+     *
+     * @param request for Core API.
+     * @return response of Core API.
+     */
+    @SneakyThrows
+    @PostMapping("/create")
+    @Operation(summary = "Create a new customer")
+    @ApiResponse(
+            code = 200,
+            response = CustomerCreateResponse.class,
+            message = "Result of customer creation")
+    public CustomerCreateResponse createCustomer(
+            final @RequestBody @Valid CustomerCreateRequest request) {
+        final WorldSimulatorConfig.CoreCustomerCreate createConfig = config.getCustomerCreate();
+        TimeUnit.NANOSECONDS.sleep(createConfig.getDelay().getNano());
 
-    return CustomerCreateResponse.builder().bdpUuid(UUID.randomUUID()).fnumber("F123456").build();
-  }
+        return CustomerCreateResponse.builder().bdpUuid(UUID.randomUUID()).fnumber("F123456").build();
+    }
 }

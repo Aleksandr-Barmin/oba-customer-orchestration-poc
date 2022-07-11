@@ -17,15 +17,16 @@ import uk.co.santander.onboarding.services.orchestration.client.core.DummyImplem
 @Service
 @DummyImplementation
 public class PartyAddressServiceSimulatorClient implements PartyAddressServiceClient {
-  @Autowired private PartyAddressFeignClient feignClient;
+    @Autowired
+    private PartyAddressFeignClient feignClient;
 
-  @Override
-  public Optional<AddressDTO> findById(UUID addressId) {
-    try {
-      return Optional.ofNullable(feignClient.getAddress(addressId));
-    } catch (Exception e) {
-      log.error("Error occurred while getting address", e);
-      return Optional.empty();
+    @Override
+    public Optional<AddressDTO> findById(UUID addressId) {
+        try {
+            return Optional.ofNullable(feignClient.getAddress(addressId));
+        } catch (Exception e) {
+            log.error("Error occurred while getting address", e);
+            return Optional.empty();
+        }
     }
-  }
 }

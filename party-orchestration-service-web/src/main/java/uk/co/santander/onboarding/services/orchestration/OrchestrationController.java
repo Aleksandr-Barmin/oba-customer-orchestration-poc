@@ -10,23 +10,26 @@ import uk.co.santander.onboarding.services.orchestration.model.ApplicationStartR
 import uk.co.santander.onboarding.services.orchestration.service.OrchestrationService;
 import uk.co.santander.onboarding.services.orchestration.state.OrchestrationState;
 
-/** As for now, the main controller of the application, kicks-off the on-boarding process. */
+/**
+ * As for now, the main controller of the application, kicks-off the on-boarding process.
+ */
 @RestController
 public class OrchestrationController {
-  @Autowired private OrchestrationService orchestrationService;
+    @Autowired
+    private OrchestrationService orchestrationService;
 
-  /**
-   * Kick-off the on-boarding process for the applicant described in the request.
-   *
-   * @param request to process.
-   * @return as for now, this data is meaningless, need to update.
-   */
-  @PostMapping("/execute")
-  public ResponseEntity<Object> execute(@RequestBody @Valid ApplicationStartRequest request) {
-    final OrchestrationState currentState = orchestrationService.execute(request);
-    if (currentState == OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE) {
-      return ResponseEntity.internalServerError().body("Can't get applicant data");
+    /**
+     * Kick-off the on-boarding process for the applicant described in the request.
+     *
+     * @param request to process.
+     * @return as for now, this data is meaningless, need to update.
+     */
+    @PostMapping("/execute")
+    public ResponseEntity<Object> execute(@RequestBody @Valid ApplicationStartRequest request) {
+        final OrchestrationState currentState = orchestrationService.execute(request);
+        if (currentState == OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE) {
+            return ResponseEntity.internalServerError().body("Can't get applicant data");
+        }
+        return ResponseEntity.ok(currentState);
     }
-    return ResponseEntity.ok(currentState);
-  }
 }

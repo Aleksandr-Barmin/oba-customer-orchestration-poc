@@ -5,15 +5,21 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
 
-/** Response from the Customer Create Core API. */
+/**
+ * Response from the Customer Create Core API.
+ */
 @Data
 @Builder
 public class CustomerCreateResponse {
-  /** UUID in BDP of newly created record. */
-  @JsonProperty("bdpUuid")
-  private UUID bdpUuid;
+    /**
+     * UUID in BDP of newly created record.
+     */
+    @JsonProperty("bdpUuid")
+    private UUID bdpUuid;
 
-  /** F-Number of a created customer. */
-  @JsonProperty("fNumber")
-  private String fnumber;
+    /**
+     * F-Number of a created customer.
+     */
+    @JsonProperty("fNumber")
+    private String fnumber;
 }

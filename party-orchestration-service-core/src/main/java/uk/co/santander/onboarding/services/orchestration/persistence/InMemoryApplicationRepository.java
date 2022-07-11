@@ -11,16 +11,16 @@ import uk.co.santander.onboarding.services.orchestration.service.ApplicationRepo
  * for development and testing purposes only.
  */
 public class InMemoryApplicationRepository implements ApplicationRepository {
-  private final List<ApplicationInfo> records = Lists.newArrayList();
+    private final List<ApplicationInfo> records = Lists.newArrayList();
 
-  @Override
-  public ApplicationInfo save(ApplicationInfo info) {
-    records.add(info);
-    return info;
-  }
+    @Override
+    public ApplicationInfo save(ApplicationInfo info) {
+        records.add(info);
+        return info;
+    }
 
-  @Override
-  public Collection<ApplicationInfo> findAll() {
-    return records;
-  }
+    @Override
+    public Collection<ApplicationInfo> findAll() {
+        return records;
+    }
 }
