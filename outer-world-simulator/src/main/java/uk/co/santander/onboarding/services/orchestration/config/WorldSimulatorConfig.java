@@ -21,6 +21,9 @@ public class WorldSimulatorConfig {
     private CoreCustomerCreate customerCreate = new CoreCustomerCreate();
 
     @Valid
+    private CoreCustomerUpdate customerUpdate = new CoreCustomerUpdate();
+
+    @Valid
     private BaasPartyDataSearch partyDataSearch = new BaasPartyDataSearch();
 
     @Valid
@@ -42,6 +45,15 @@ public class WorldSimulatorConfig {
     public static class CoreCustomerSearch {
         private boolean found;
 
+        @NotNull
+        private Duration delay;
+    }
+
+    /**
+     * Configuration for Customer Update Economic Data Core API.
+     */
+    @Data
+    public static class CoreCustomerUpdate {
         @NotNull
         private Duration delay;
     }

@@ -37,12 +37,12 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(
         classes = {
                 StateContextHelper.class,
-                AddEconomicDataAction.class,
+                UpdateEconomicDataAction.class,
                 CustomerEconomicActivityUpdateRequestAdapter.class
         })
-class AddEconomicDataActionTest {
+class UpdateEconomicDataActionTest {
     @Autowired
-    private AddEconomicDataAction uut;
+    private UpdateEconomicDataAction uut;
 
     @MockBean
     private PartyDataFacade dataFacade;

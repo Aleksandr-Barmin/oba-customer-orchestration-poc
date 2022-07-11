@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.co.santander.onboarding.core.client.create.CustomerCreateClient;
 import uk.co.santander.onboarding.core.client.create.CustomerCreateRequest;
 import uk.co.santander.onboarding.core.client.create.CustomerCreateResponse;
+import uk.co.santander.onboarding.core.client.economic.data.CustomerUpdateEconomicDataClient;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchClient;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchRequest;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
@@ -24,6 +25,7 @@ import uk.co.santander.onboarding.services.orchestration.client.baas.PartyAddres
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataFacade;
 import uk.co.santander.onboarding.services.orchestration.client.baas.PartyDataServiceClient;
 import uk.co.santander.onboarding.services.orchestration.client.core.CustomerCreateRequestAdapter;
+import uk.co.santander.onboarding.services.orchestration.client.core.CustomerEconomicActivityUpdateRequestAdapter;
 import uk.co.santander.onboarding.services.orchestration.client.core.CustomerSearchRequestAdapter;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationResult;
 import uk.co.santander.onboarding.services.orchestration.model.ApplicantValidationStatus;
@@ -36,6 +38,7 @@ import uk.co.santander.onboarding.services.orchestration.state.action.CreateCust
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.OnMachineInitialization;
 import uk.co.santander.onboarding.services.orchestration.state.action.SearchCustomerInBdpAction;
+import uk.co.santander.onboarding.services.orchestration.state.action.UpdateEconomicDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.guard.ApplicantDataValidatedGuard;
 import uk.co.santander.onboarding.services.orchestration.state.guard.CustomerNotFoundInBdpGuard;
 import uk.co.santander.onboarding.services.orchestration.state.helper.StateConstants;
@@ -64,9 +67,11 @@ import static org.mockito.Mockito.when;
         SearchCustomerInBdpAction.class,
         CustomerNotFoundInBdpGuard.class,
         CreateCustomerInBdpAction.class,
+        UpdateEconomicDataAction.class,
 
         CustomerSearchRequestAdapter.class,
         CustomerCreateRequestAdapter.class,
+        CustomerEconomicActivityUpdateRequestAdapter.class,
 
         StateContextHelper.class,
         PartyDataFacade.class,
@@ -94,6 +99,9 @@ class StateMachineDefinitionTest {
 
     @MockBean
     private PartyDataAndAddressValidator partyDataValidator;
+
+    @MockBean
+    private CustomerUpdateEconomicDataClient updateEconomicDataClient;
 
     @Test
     @DisplayName("Context should start")
@@ -124,12 +132,12 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                .expectStateEntered(OrchestrationState.MACHINE_CREATED)
-                .expectVariable(
-                        StateConstants.APPLICATION_ID,
-                        applicantId
-                )
-                .and()
+                    .expectStateEntered(OrchestrationState.MACHINE_CREATED)
+                    .expectVariable(
+                            StateConstants.APPLICATION_ID,
+                            applicantId
+                    )
+                    .and()
                 .build();
 
         testPlan.test();
@@ -144,17 +152,17 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                .sendEvent(OrchestrationEvent.START_EXECUTION)
-                .expectState(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
-                .expectVariable(
-                        StateConstants.APPLICANT_VALIDATION_STATUS,
-                        ApplicantValidationStatus.NOT_SUCCESS
-                )
-                .expectVariable(
-                        StateConstants.APPLICANT_VALIDATION_MESSAGE,
-                        "Can't retrieve applicant data"
-                )
-                .and()
+                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .expectState(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
+                    .expectVariable(
+                            StateConstants.APPLICANT_VALIDATION_STATUS,
+                            ApplicantValidationStatus.NOT_SUCCESS
+                    )
+                    .expectVariable(
+                            StateConstants.APPLICANT_VALIDATION_MESSAGE,
+                            "Can't retrieve applicant data"
+                    )
+                    .and()
                 .build();
 
         testPlan.test();
@@ -194,17 +202,17 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                .sendEvent(OrchestrationEvent.START_EXECUTION)
-                .expectState(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
-                .expectVariable(
-                        StateConstants.APPLICANT_VALIDATION_STATUS,
-                        ApplicantValidationStatus.NOT_SUCCESS
-                )
-                .expectVariable(
-                        StateConstants.APPLICANT_VALIDATION_MESSAGE,
-                        validationErrorMessage
-                )
-                .and()
+                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .expectState(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
+                    .expectVariable(
+                            StateConstants.APPLICANT_VALIDATION_STATUS,
+                            ApplicantValidationStatus.NOT_SUCCESS
+                    )
+                    .expectVariable(
+                            StateConstants.APPLICANT_VALIDATION_MESSAGE,
+                            validationErrorMessage
+                    )
+                    .and()
                 .build();
 
         testPlan.test();
@@ -239,21 +247,21 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                .sendEvent(OrchestrationEvent.START_EXECUTION)
-                .expectState(OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
-                .expectVariable(
-                        StateConstants.CORE_SEARCH_STATUS,
-                        CustomerSearchStatus.FOUND_SINGLE
-                )
-                .expectVariable(
-                        StateConstants.CORE_SEARCH_BDP_UUID,
-                        bdpUuid
-                )
-                .expectVariable(
-                        StateConstants.CORE_SEARCH_F_NUMBER,
-                        fNumber
-                )
-                .and()
+                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .expectState(OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
+                    .expectVariable(
+                            StateConstants.CORE_SEARCH_STATUS,
+                            CustomerSearchStatus.FOUND_SINGLE
+                    )
+                    .expectVariable(
+                            StateConstants.CORE_SEARCH_BDP_UUID,
+                            bdpUuid
+                    )
+                    .expectVariable(
+                            StateConstants.CORE_SEARCH_F_NUMBER,
+                            fNumber
+                    )
+                    .and()
                 .build();
 
         testPlan.test();
@@ -295,17 +303,17 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                .sendEvent(OrchestrationEvent.START_EXECUTION)
-                .expectState(OrchestrationState.CUSTOMER_CREATION_STATE)
-                .expectVariable(
-                        StateConstants.CORE_CREATE_F_NUMBER,
-                        fNumber
-                )
-                .expectVariable(
-                        StateConstants.CORE_CREATE_DBP_UUID,
-                        bdpUuid
-                )
-                .and()
+                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .expectState(OrchestrationState.CUSTOMER_UPDATE_ECONOMIC_INFO_STATE)
+                    .expectVariable(
+                            StateConstants.CORE_CREATE_F_NUMBER,
+                            fNumber
+                    )
+                    .expectVariable(
+                            StateConstants.CORE_CREATE_DBP_UUID,
+                            bdpUuid
+                    )
+                    .and()
                 .build();
 
         testPlan.test();

@@ -22,6 +22,10 @@
             <artifactId>core-customer-create-common</artifactId>
         </dependency>
         <dependency>
+            <groupId>dev.abarmin.poc</groupId>
+            <artifactId>core-customer-economic-data-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.santanderuk.onboarding</groupId>
             <artifactId>party-data-service-common</artifactId>
             <exclusions>

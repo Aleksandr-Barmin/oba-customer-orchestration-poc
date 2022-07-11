@@ -7,3 +7,5 @@ client:
     base-url: http://localhost:9080/core/customer/create
   core-customer-search:
     base-url: http://localhost:9080/core/customer/search
+  core-customer-update:
+    base-url: http://localhost:9080/core/customer/update

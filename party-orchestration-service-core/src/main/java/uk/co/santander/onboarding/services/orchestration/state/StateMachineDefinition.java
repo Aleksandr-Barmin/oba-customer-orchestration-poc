@@ -10,6 +10,7 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import uk.co.santander.onboarding.services.orchestration.service.StateMachineListener;
+import uk.co.santander.onboarding.services.orchestration.state.action.UpdateEconomicDataAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.ApplicantDataValidationFailedAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.CreateCustomerInBdpAction;
 import uk.co.santander.onboarding.services.orchestration.state.action.GetAndVerifyApplicantDataAction;
@@ -52,45 +53,53 @@ public class StateMachineDefinition
     @Autowired
     private CreateCustomerInBdpAction createCustomerInBdpAction;
 
+    @Autowired
+    private UpdateEconomicDataAction updateEconomicDataAction;
+
     @Override
     public void configure(
             StateMachineTransitionConfigurer<OrchestrationState, OrchestrationEvent> transitions)
             throws Exception {
         transitions
                 .withExternal()
-                .source(OrchestrationState.MACHINE_CREATED)
-                .target(OrchestrationState.MACHINE_INITIALIZED)
-                .event(OrchestrationEvent.START_EXECUTION)
-                .action(onMachineInitialization) // TODO rename the action
-                .and()
+                    .source(OrchestrationState.MACHINE_CREATED)
+                    .target(OrchestrationState.MACHINE_INITIALIZED)
+                    .event(OrchestrationEvent.START_EXECUTION)
+                    .action(onMachineInitialization) // TODO rename the action
+                    .and()
                 .withExternal()
-                .source(OrchestrationState.MACHINE_INITIALIZED)
-                .target(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
-                .action(getAndVerifyApplicantDataAction)
-                .and()
+                    .source(OrchestrationState.MACHINE_INITIALIZED)
+                    .target(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                    .action(getAndVerifyApplicantDataAction)
+                    .and()
                 .withJunction()
-                .source(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
-                .first( // if validation is ok
-                        OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE,
-                        applicantDataValidatedGuard,
-                        searchCustomerInBdpAction
-                )
-                .last(// else
-                        OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
-                        applicantDataValidationFailedAction
-                )
-                .and()
+                    .source(OrchestrationState.GET_APPLICANT_DATA_AND_VALIDATE_STATE)
+                    .first( // if validation is ok
+                            OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE,
+                            applicantDataValidatedGuard,
+                            searchCustomerInBdpAction
+                    )
+                    .last(// else
+                            OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE,
+                            applicantDataValidationFailedAction
+                    )
+                    .and()
                 .withJunction()
-                .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
-                .first( // not found in BDP
-                        OrchestrationState.CUSTOMER_CREATION_STATE,
-                        customerNotFoundInBdpGuard,
-                        createCustomerInBdpAction
-                )
-                .last( // found in BDP, can't proceed
-                        OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE
-                )
-                .and();
+                    .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
+                    .first( // not found in BDP
+                            OrchestrationState.CUSTOMER_CREATION_STATE,
+                            customerNotFoundInBdpGuard,
+                            createCustomerInBdpAction
+                    )
+                    .last( // found in BDP, can't proceed
+                            OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE
+                    )
+                    .and()
+                .withExternal()
+                    .source(OrchestrationState.CUSTOMER_CREATION_STATE)
+                    .target(OrchestrationState.CUSTOMER_UPDATE_ECONOMIC_INFO_STATE)
+                    .action(updateEconomicDataAction)
+                    .and();
     }
 
     @Override

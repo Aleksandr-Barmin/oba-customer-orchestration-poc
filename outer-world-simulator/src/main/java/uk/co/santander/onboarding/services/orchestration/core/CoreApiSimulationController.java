@@ -8,12 +8,16 @@ import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.co.santander.onboarding.core.client.create.CustomerCreateRequest;
 import uk.co.santander.onboarding.core.client.create.CustomerCreateResponse;
+import uk.co.santander.onboarding.core.client.economic.data.CustomerEconomicDataUpdateRequest;
+import uk.co.santander.onboarding.core.client.economic.data.CustomerEconomicDataUpdateResponse;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchRequest;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchResponse;
 import uk.co.santander.onboarding.core.client.search.CustomerSearchStatus;
@@ -76,5 +80,17 @@ public class CoreApiSimulationController {
         TimeUnit.NANOSECONDS.sleep(createConfig.getDelay().getNano());
 
         return CustomerCreateResponse.builder().bdpUuid(UUID.randomUUID()).fnumber("F123456").build();
+    }
+
+    @SneakyThrows
+    @PatchMapping("/update/{bdpUuid}")
+    public CustomerEconomicDataUpdateResponse updateEconomicData(
+            final @PathVariable("bdpUuid") UUID bpdUuid,
+            final @RequestBody @Valid CustomerEconomicDataUpdateRequest request) {
+        final WorldSimulatorConfig.CoreCustomerUpdate updateConfig = config.getCustomerUpdate();
+        TimeUnit.NANOSECONDS.sleep(updateConfig.getDelay().getNano());
+
+        return CustomerEconomicDataUpdateResponse.builder()
+                .build();
     }
 }

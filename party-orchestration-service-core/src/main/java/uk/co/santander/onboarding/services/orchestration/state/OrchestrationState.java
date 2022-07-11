@@ -36,6 +36,11 @@ public enum OrchestrationState {
     CUSTOMER_CREATION_STATE,
 
     /**
+     * Update economic data in BDP via Core API.
+     */
+    CUSTOMER_UPDATE_ECONOMIC_INFO_STATE,
+
+    /**
      * Applicant's data not validated successfully.
      */
     APPLICANT_DATA_VALIDATION_FAILED_STATE,

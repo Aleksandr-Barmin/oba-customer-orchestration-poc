@@ -23,7 +23,7 @@ import uk.co.santander.onboarding.services.orchestration.state.helper.StateConte
  * This action adds economic data to the BDP record.
  */
 @Component
-public class AddEconomicDataAction implements Action<OrchestrationState, OrchestrationEvent> {
+public class UpdateEconomicDataAction implements Action<OrchestrationState, OrchestrationEvent> {
     @Autowired
     private StateContextHelper helper;
 

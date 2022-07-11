@@ -8,6 +8,8 @@ world:
       delay: 1000ms
     customer-create:
       delay: 100ms
+    customer-update:
+      delay: 100ms
     party-data-search:
       found: true
       delay: 100ms
