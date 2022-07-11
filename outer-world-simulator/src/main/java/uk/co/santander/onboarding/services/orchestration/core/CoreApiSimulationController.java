@@ -83,7 +83,7 @@ public class CoreApiSimulationController {
     }
 
     @SneakyThrows
-    @PatchMapping("/update/{bdpUuid}")
+    @PostMapping("/update/{bdpUuid}")
     public CustomerEconomicDataUpdateResponse updateEconomicData(
             final @PathVariable("bdpUuid") UUID bpdUuid,
             final @RequestBody @Valid CustomerEconomicDataUpdateRequest request) {
@@ -91,6 +91,7 @@ public class CoreApiSimulationController {
         TimeUnit.NANOSECONDS.sleep(updateConfig.getDelay().getNano());
 
         return CustomerEconomicDataUpdateResponse.builder()
+                .status("Updated")
                 .build();
     }
 }

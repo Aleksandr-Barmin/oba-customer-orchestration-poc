@@ -21,10 +21,16 @@ public class OrchestrationService {
      * @return current (final?) state of the state machine.
      */
     public OrchestrationState execute(ApplicationStartRequest request) {
-        // at this moment request already validated, need to kickstart the process
-
-        // TODO: should we check if a process already started?
         return stateMachineService.sendEvent(
-                request.getApplicantId(), OrchestrationEvent.START_EXECUTION);
+                request.getApplicantId(),
+                OrchestrationEvent.EXECUTE_EVENT
+        );
+    }
+
+    public OrchestrationState authorize(ApplicationStartRequest request) {
+        return stateMachineService.sendEvent(
+                request.getApplicantId(),
+                OrchestrationEvent.AUTHORIZE_EVENT
+        );
     }
 }

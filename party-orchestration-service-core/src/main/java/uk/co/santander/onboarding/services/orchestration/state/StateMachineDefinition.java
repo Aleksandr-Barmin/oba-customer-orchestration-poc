@@ -64,7 +64,7 @@ public class StateMachineDefinition
                 .withExternal()
                     .source(OrchestrationState.MACHINE_CREATED)
                     .target(OrchestrationState.MACHINE_INITIALIZED)
-                    .event(OrchestrationEvent.START_EXECUTION)
+                    .event(OrchestrationEvent.AUTHORIZE_EVENT)
                     .action(onMachineInitialization) // TODO rename the action
                     .and()
                 .withExternal()
@@ -87,18 +87,27 @@ public class StateMachineDefinition
                 .withJunction()
                     .source(OrchestrationState.SEARCH_CUSTOMER_AND_VALIDATE_STATE)
                     .first( // not found in BDP
-                            OrchestrationState.CUSTOMER_CREATION_STATE,
-                            customerNotFoundInBdpGuard,
-                            createCustomerInBdpAction
+                            OrchestrationState.CUSTOMER_READY_FOR_EXECUTE_STATE,
+                            customerNotFoundInBdpGuard
                     )
                     .last( // found in BDP, can't proceed
                             OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE
                     )
                     .and()
                 .withExternal()
+                    .source(OrchestrationState.CUSTOMER_READY_FOR_EXECUTE_STATE)
+                    .target(OrchestrationState.CUSTOMER_CREATION_STATE)
+                    .event(OrchestrationEvent.EXECUTE_EVENT)
+                    .action(createCustomerInBdpAction)
+                    .and()
+                .withExternal()
                     .source(OrchestrationState.CUSTOMER_CREATION_STATE)
                     .target(OrchestrationState.CUSTOMER_UPDATE_ECONOMIC_INFO_STATE)
                     .action(updateEconomicDataAction)
+                    .and()
+                .withExternal()
+                    .source(OrchestrationState.CUSTOMER_UPDATE_ECONOMIC_INFO_STATE)
+                    .target(OrchestrationState.CUSTOMER_CREATED_STATE)
                     .and();
     }
 

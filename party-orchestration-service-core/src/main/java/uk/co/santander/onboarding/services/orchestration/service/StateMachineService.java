@@ -23,6 +23,10 @@ public class StateMachineService {
     @Autowired
     private OrchestrationStateMachineFactory stateMachineFactory;
 
+    public boolean isInState(UUID applicationId, OrchestrationState state) {
+        return false;
+    }
+
     /**
      * Send an event to the state machine with given identifier.
      *

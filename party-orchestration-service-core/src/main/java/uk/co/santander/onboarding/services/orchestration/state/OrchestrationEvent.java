@@ -7,5 +7,10 @@ public enum OrchestrationEvent {
     /**
      * Initial event which is used to kickstart the SM.
      */
-    START_EXECUTION
+    AUTHORIZE_EVENT,
+
+    /**
+     * Second step of the execution.
+     */
+    EXECUTE_EVENT
 }

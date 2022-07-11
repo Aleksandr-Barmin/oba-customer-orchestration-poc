@@ -31,6 +31,11 @@ public enum OrchestrationState {
     CUSTOMER_FOUND_IN_BDP_STATE,
 
     /**
+     * Ready to start execution.
+     */
+    CUSTOMER_READY_FOR_EXECUTE_STATE,
+
+    /**
      * Create customer in BDP via Core API.
      */
     CUSTOMER_CREATION_STATE,
@@ -39,6 +44,11 @@ public enum OrchestrationState {
      * Update economic data in BDP via Core API.
      */
     CUSTOMER_UPDATE_ECONOMIC_INFO_STATE,
+
+    /**
+     * Final state for now.
+     */
+    CUSTOMER_CREATED_STATE,
 
     /**
      * Applicant's data not validated successfully.

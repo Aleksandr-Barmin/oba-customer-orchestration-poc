@@ -152,7 +152,7 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .sendEvent(OrchestrationEvent.AUTHORIZE_EVENT)
                     .expectState(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
                     .expectVariable(
                             StateConstants.APPLICANT_VALIDATION_STATUS,
@@ -202,7 +202,7 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .sendEvent(OrchestrationEvent.AUTHORIZE_EVENT)
                     .expectState(OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE)
                     .expectVariable(
                             StateConstants.APPLICANT_VALIDATION_STATUS,
@@ -247,7 +247,7 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                    .sendEvent(OrchestrationEvent.START_EXECUTION)
+                    .sendEvent(OrchestrationEvent.AUTHORIZE_EVENT)
                     .expectState(OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE)
                     .expectVariable(
                             StateConstants.CORE_SEARCH_STATUS,
@@ -303,8 +303,12 @@ class StateMachineDefinitionTest {
         final StateMachineTestPlan<OrchestrationState, OrchestrationEvent> testPlan = StateMachineTestPlanBuilder.<OrchestrationState, OrchestrationEvent>builder()
                 .stateMachine(stateMachine)
                 .step()
-                    .sendEvent(OrchestrationEvent.START_EXECUTION)
-                    .expectState(OrchestrationState.CUSTOMER_UPDATE_ECONOMIC_INFO_STATE)
+                    .sendEvent(OrchestrationEvent.AUTHORIZE_EVENT)
+                    .expectState(OrchestrationState.CUSTOMER_READY_FOR_EXECUTE_STATE)
+                    .and()
+                .step()
+                    .sendEvent(OrchestrationEvent.EXECUTE_EVENT)
+                    .expectState(OrchestrationState.CUSTOMER_CREATED_STATE)
                     .expectVariable(
                             StateConstants.CORE_CREATE_F_NUMBER,
                             fNumber

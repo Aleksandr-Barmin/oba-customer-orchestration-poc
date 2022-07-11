@@ -4,7 +4,7 @@ server:
 world:
   config:
     customer-search:
-      found: true
+      found: false
       delay: 1000ms
     customer-create:
       delay: 100ms

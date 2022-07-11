@@ -18,6 +18,20 @@ public class OrchestrationController {
     @Autowired
     private OrchestrationService orchestrationService;
 
+    @PostMapping("/authorize")
+    public ResponseEntity<Object> authorize(final @RequestBody @Valid ApplicationStartRequest request) {
+        final OrchestrationState currentState = orchestrationService.authorize(request);
+        if (OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE == currentState) {
+            return ResponseEntity.badRequest()
+                    .body("Applicant data validation failed");
+        }
+        if (OrchestrationState.CUSTOMER_FOUND_IN_BDP_STATE == currentState) {
+            return ResponseEntity.badRequest()
+                    .body("Applicant found in BDP");
+        }
+        return ResponseEntity.ok(currentState);
+    }
+
     /**
      * Kick-off the on-boarding process for the applicant described in the request.
      *
@@ -27,9 +41,6 @@ public class OrchestrationController {
     @PostMapping("/execute")
     public ResponseEntity<Object> execute(@RequestBody @Valid ApplicationStartRequest request) {
         final OrchestrationState currentState = orchestrationService.execute(request);
-        if (currentState == OrchestrationState.APPLICANT_DATA_VALIDATION_FAILED_STATE) {
-            return ResponseEntity.internalServerError().body("Can't get applicant data");
-        }
         return ResponseEntity.ok(currentState);
     }
 }
